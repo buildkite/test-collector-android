@@ -108,3 +108,4 @@ Thumbs.db
 !/gradle/wrapper/gradle-wrapper.jar
 .idea/gradle.xml
 .idea/gradle.xml
+.idea/gradle.xml

@@ -6,7 +6,7 @@ pluginManagement {
     }
 }
 dependencyResolutionManagement {
-    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositoriesMode.set(RepositoriesMode.PREFER_SETTINGS)
     repositories {
         google()
         mavenCentral()
@@ -15,3 +15,4 @@ dependencyResolutionManagement {
 include ':example-project'
 include ':test-collector'
 include ':test-collector:instrumented-test-collector-library'
+include ':test-collector:unit-test-collector-plugin'

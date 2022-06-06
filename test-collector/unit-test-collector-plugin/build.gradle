@@ -1,0 +1,8 @@
+plugins {
+    id 'java-gradle-plugin'
+    id 'org.jetbrains.kotlin.jvm'
+}
+
+dependencies {
+    api(gradleApi())
+}
