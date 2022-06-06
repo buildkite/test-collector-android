@@ -10,6 +10,8 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/example-project" />
+            <option value="$PROJECT_DIR$/test-collector" />
+            <option value="$PROJECT_DIR$/test-collector/instrumented-test-collector-library" />
           </set>
         </option>
       </GradleProjectSettings>

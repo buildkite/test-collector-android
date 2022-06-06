@@ -13,3 +13,5 @@ dependencyResolutionManagement {
     }
 }
 include ':example-project'
+include ':test-collector'
+include ':test-collector:instrumented-test-collector-library'
