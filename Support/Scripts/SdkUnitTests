@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+set -xeu
+set -o pipefail
+
+function finish() {
+  printf "\n---Finished Running Unit Tests---\n"
+}
+
+trap finish EXIT
+
+# Run all unit tests inside the test-collector module
+./gradlew clean :test-collector:instrumented-test-collector-library:testDebugUnitTest
+./gradlew clean :test-collector:test-data-uploader:test
+./gradlew clean :test-collector:unit-test-collector-plugin:test

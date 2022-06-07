@@ -19,6 +19,6 @@ class ExampleInstrumentedTest {
     fun useAppContext() {
         // Context of the app under test.
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
-        assertEquals("com.buildkite.unit_test_collector_library.test", appContext.packageName)
+        assertEquals("com.buildkite.instrumented_test_collector.test", appContext.packageName)
     }
 }
