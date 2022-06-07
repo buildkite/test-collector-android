@@ -14,6 +14,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.buildkite.example_project.ui.theme.ExampleProjectTheme
+import com.buildkite.instrumented_test_collector.InstrumentedTestCollector
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,7 +29,9 @@ class MainActivity : ComponentActivity() {
                         verticalArrangement = Arrangement.Center,
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
-                        Greeting("Android")
+                        val instrumentedTestCollector = InstrumentedTestCollector()
+                        
+                        Greeting(instrumentedTestCollector.greetingMessage())
                     }
                 }
             }
@@ -37,8 +40,8 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun Greeting(name: String) {
-    Text(text = "Hello $name!")
+fun Greeting(message: String) {
+    Text(text = message)
 }
 
 @Preview(showBackground = true)
