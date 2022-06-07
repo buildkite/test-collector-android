@@ -30,7 +30,7 @@ class MainActivity : ComponentActivity() {
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
                         val instrumentedTestCollector = InstrumentedTestCollector()
-                        
+
                         Greeting(instrumentedTestCollector.greetingMessage())
                     }
                 }
