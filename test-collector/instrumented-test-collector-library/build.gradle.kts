@@ -35,11 +35,13 @@ android {
 dependencies {
     implementation(project(":test-collector:test-data-uploader"))
 
-    implementation("androidx.core:core-ktx:1.7.0")
-    implementation("androidx.appcompat:appcompat:1.4.1")
-    implementation("com.google.android.material:material:1.6.0")
-    implementation("junit:junit:4.13.2")
-    testImplementation("junit:junit:4.13.2")
-    androidTestImplementation("androidx.test.ext:junit:1.1.3")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.4.0")
+    implementation(Dependencies.AndroidX.coreKtx)
+    implementation(Dependencies.AndroidX.appcompat)
+    implementation(Dependencies.Google.Android.material)
+    implementation(Dependencies.Testing.jUnit)
+
+    testImplementation(Dependencies.Testing.jUnit)
+
+    androidTestImplementation(Dependencies.AndroidX.Test.junit)
+    androidTestImplementation(Dependencies.AndroidX.Test.espressoCore)
 }

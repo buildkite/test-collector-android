@@ -3,17 +3,15 @@ plugins {
     id("org.jetbrains.kotlin.android")
 }
 
-val composeVersion = rootProject.extra.get("compose_version") as String
-
 android {
-    compileSdk = 32
+    compileSdk = ConfigData.compileSdkVersion
 
     defaultConfig {
         applicationId = "com.buildkite.example_project"
-        minSdk = 23
-        targetSdk = 32
-        versionCode = 1
-        versionName = "1.0"
+        minSdk = ConfigData.minSdkVersion
+        targetSdk = ConfigData.targetSdkVersion
+        versionCode = ConfigData.versionCode
+        versionName = ConfigData.versionName
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -41,7 +39,7 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = composeVersion
+        kotlinCompilerExtensionVersion = Dependencies.AndroidX.Compose.version
     }
     packagingOptions {
         resources {
@@ -52,16 +50,19 @@ android {
 
 dependencies {
 
-    implementation("androidx.core:core-ktx:1.7.0")
-    implementation("androidx.compose.ui:ui:$composeVersion")
-    implementation("androidx.compose.material:material:$composeVersion")
-    implementation("androidx.compose.ui:ui-tooling-preview:$composeVersion")
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.4.1")
-    implementation("androidx.activity:activity-compose:1.4.0")
-    testImplementation("junit:junit:4.13.2")
-    androidTestImplementation("androidx.test.ext:junit:1.1.3")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.4.0")
-    androidTestImplementation("androidx.compose.ui:ui-test-junit4:$composeVersion")
-    debugImplementation("androidx.compose.ui:ui-tooling:$composeVersion")
-    debugImplementation("androidx.compose.ui:ui-test-manifest:$composeVersion")
+    implementation(Dependencies.AndroidX.coreKtx)
+    implementation(Dependencies.AndroidX.lifecycle)
+    implementation(Dependencies.AndroidX.activity)
+    implementation(Dependencies.AndroidX.Compose.material)
+    implementation(Dependencies.AndroidX.Compose.UI.ui)
+    implementation(Dependencies.AndroidX.Compose.UI.uiToolingPreview)
+
+    testImplementation(Dependencies.Testing.jUnit)
+
+    androidTestImplementation(Dependencies.AndroidX.Test.junit)
+    androidTestImplementation(Dependencies.AndroidX.Test.espressoCore)
+    androidTestImplementation(Dependencies.AndroidX.Compose.UI.Test.uiTestJunit)
+
+    debugImplementation(Dependencies.AndroidX.Compose.UI.Debug.uiTooling)
+    debugImplementation(Dependencies.AndroidX.Compose.UI.Debug.uiTestManifest)
 }
