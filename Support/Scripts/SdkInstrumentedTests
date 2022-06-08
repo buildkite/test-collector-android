@@ -4,10 +4,10 @@ set -xeu
 set -o pipefail
 
 function finish() {
-  printf "\n---Finished Running Instrumented Tests---\n"
+  printf "\n---Finished Running SDK Instrumented Tests---\n"
 }
 
 trap finish EXIT
 
-# Run all unit tests inside the instrumented-test-collector-library Module
+# Run all instrumented tests inside the instrumented-test-collector-library Module
 ./gradlew clean :test-collector:instrumented-test-collector-library:connectedDebugAndroidTest

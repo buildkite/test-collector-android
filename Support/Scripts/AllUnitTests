@@ -4,10 +4,10 @@ set -xeu
 set -o pipefail
 
 function finish() {
-  printf "\n---Finished Running Unit Tests---\n"
+  printf "\n---Finished Running All Unit Tests---\n"
 }
 
 trap finish EXIT
 
-# Run all unit tests inside the test-collector module
+# Run all unit tests of the project
 ./gradlew clean test
