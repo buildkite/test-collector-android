@@ -26,20 +26,18 @@ jobs:
 
   sdk-instrumented-tests:
     name: Run SDK Instrumented Tests
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
 
     steps:
       - name: Git Checkout
         uses: actions/checkout@v3
 
-      - name: Set up JDK 11
-        uses: actions/setup-java@v3.3.0
-        with:
-          distribution: zulu
-          java-version: 11
-
       - name: SDK Instrumented Tests
-        run: "Support/Scripts/SdkInstrumentedTests"
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 27
+          arch: x86_64
+          script: "Support/Scripts/SdkInstrumentedTests"
 
   build-example-project:
     name: Build Example Project
