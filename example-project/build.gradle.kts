@@ -1,7 +1,9 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
-    id("com.buildkite.test-collector-android.unit-test-collector-plugin")
+    // Uncomment below plugin declaration in order to use the plugin published on local maven repo
+    // Note: Since Github server doesn't recognise repository path, as a workaround-MUST Comment it out before creating PR
+    // id("com.buildkite.test-collector-android.unit-test-collector-plugin")
 }
 
 android {
@@ -50,13 +52,13 @@ android {
 }
 
 dependencies {
-    
+
     implementation(project(":test-collector:instrumented-test-collector-library"))
-    
+
     // Comment out the above line and uncomment the below implementation to test the library published on local maven repository
     // Note: Run './gradlew publishToMavenLocal' command if the library isn't published locally
 //     implementation("com.buildkite.test-collector-android:instrumented-test-collector:0.1.0")
-    
+
     implementation(Dependencies.AndroidX.coreKtx)
     implementation(Dependencies.AndroidX.lifecycle)
     implementation(Dependencies.AndroidX.activity)
