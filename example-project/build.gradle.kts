@@ -3,7 +3,7 @@ plugins {
     id("org.jetbrains.kotlin.android")
     // Uncomment below plugin declaration in order to use the plugin published on local maven repo
     // Note: Since Github server doesn't recognise repository path, as a workaround-MUST Comment it out before creating PR
-    // id("com.buildkite.test-collector-android.unit-test-collector-plugin")
+    id("com.buildkite.test-collector-android.unit-test-collector-plugin")
 }
 
 android {
