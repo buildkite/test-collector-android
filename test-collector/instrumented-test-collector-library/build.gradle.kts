@@ -17,7 +17,7 @@ android {
 
     buildTypes {
         getByName("release") {
-            isMinifyEnabled = false // IMPORTANT BIT else you release aar will have no classes
+            isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
@@ -39,7 +39,7 @@ dependencies {
     implementation(Dependencies.AndroidX.coreKtx)
     implementation(Dependencies.AndroidX.appcompat)
     implementation(Dependencies.Google.Android.material)
-    implementation(Dependencies.Testing.jUnit)
+    api(Dependencies.Testing.jUnit)
 
     testImplementation(Dependencies.Testing.jUnit)
 

@@ -45,7 +45,7 @@ jobs:
           arch: x86_64
           script: "Support/Scripts/SdkInstrumentedTests"
 
-  build-example-project:
+  build-and-test-example-project:
     name: Build Example Project
     runs-on: ubuntu-latest
 
@@ -61,3 +61,13 @@ jobs:
 
       - name: Debug Build
         run: ./gradlew example-project:buildDebug
+
+      - name: Run Example Project Unit Tests
+        run: ./gradlew example-project:testDebugUnitTest
+
+      - name: Run Example Project Instrumented Tests
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 27
+          arch: x86_64
+          script: ./gradlew example-project:connectedDebugAndroidTest
