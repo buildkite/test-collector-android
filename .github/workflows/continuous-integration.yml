@@ -22,7 +22,7 @@ jobs:
           java-version: 11
 
       - name: SDK Unit Tests
-        run: "Support/Scripts/SdkUnitTests"
+        run: "support/scripts/sdk-unit-tests"
 
   sdk-instrumented-tests:
     name: Run SDK Instrumented Tests
@@ -43,7 +43,7 @@ jobs:
         with:
           api-level: 27
           arch: x86_64
-          script: "Support/Scripts/SdkInstrumentedTests"
+          script: "support/scripts/sdk-instrumented-tests"
 
   build-and-test-example-project:
     name: Build Example Project
