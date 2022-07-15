@@ -2,7 +2,7 @@ plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     // TODO: Use below plugin to test the plugin published in local maven repository, Remove before publishing the repo and comment out before pushing changes
-    id("com.buildkite.test-collector-android.unit-test-collector-plugin") version "0.1.0"
+    // id("com.buildkite.test-collector-android.unit-test-collector-plugin") version "0.1.0"
 }
 
 android {
