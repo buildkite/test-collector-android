@@ -13,6 +13,7 @@ import org.junit.runner.notification.RunListener
 
 abstract class InstrumentedTestCollector(
     apiToken: String,
+    isDebugEnabled: Boolean = false
 ) : RunListener() {
 
     private var testStartTime: Long = 0
@@ -22,7 +23,7 @@ abstract class InstrumentedTestCollector(
     private var testFailureReason: String = ""
     private var testFailureExpanded: List<FailureExpanded> = emptyList()
 
-    private val testDataUploader = TestDataUploader(testSuiteApiToken = apiToken)
+    private val testDataUploader = TestDataUploader(testSuiteApiToken = apiToken, isDebugEnabled = isDebugEnabled)
     private val testBatch: MutableList<TestDetails> = mutableListOf()
 
     override fun testSuiteStarted(testDescription: Description?) {

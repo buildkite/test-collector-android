@@ -29,6 +29,11 @@ android {
             "BUILDKITE_ANALYTICS_TOKEN",
             "\"${System.getenv("BUILDKITE_ANALYTICS_TOKEN")}\""
         )
+        buildConfigField(
+            "boolean",
+            "BUILDKITE_ANALYTICS_DEBUG_ENABLED",
+            System.getenv("BUILDKITE_ANALYTICS_DEBUG_ENABLED")
+        )
     }
 
     buildTypes {

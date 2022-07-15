@@ -18,7 +18,8 @@ class UnitTestCollectorPlugin : Plugin<Project> {
 
     override fun apply(project: Project) {
         val testDataUploader = TestDataUploader(
-            testSuiteApiToken = System.getenv("BUILDKITE_ANALYTICS_TOKEN")
+            testSuiteApiToken = System.getenv("BUILDKITE_ANALYTICS_TOKEN"),
+            isDebugEnabled = System.getenv("BUILDKITE_ANALYTICS_DEBUG_ENABLED")?.let { it.toBoolean() } ?: false
         )
 
         project.tasks.withType(Test::class.java) { test ->

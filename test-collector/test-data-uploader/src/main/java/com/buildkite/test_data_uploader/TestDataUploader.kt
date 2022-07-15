@@ -5,13 +5,13 @@ import com.buildkite.test_data_uploader.data.network.TestAnalyticsApi
 import com.buildkite.test_data_uploader.domain.model.api.RunEnvironment
 import com.buildkite.test_data_uploader.domain.model.api.TestData
 import com.buildkite.test_data_uploader.domain.model.api.TestDetails
+import com.buildkite.test_data_uploader.domain.model.api.TestResponse
+import retrofit2.Response
 
 class TestDataUploader(
-    val testSuiteApiToken: String
+    val testSuiteApiToken: String,
+    val isDebugEnabled: Boolean
 ) {
-
-    var loggingEnabled: Boolean = false
-
     fun collectTestBatch(testBatch: List<TestDetails>) {
         val runEnvironment = RunEnvironment().getEnvironmentValues()
 
@@ -31,8 +31,15 @@ class TestDataUploader(
 
         val executeApiCall = uploadTestDataApiCall.execute()
 
-        if (loggingEnabled) {
-            println("API response: ${executeApiCall.raw()}")
+        if (isDebugEnabled) {
+            printResponseLog(executeApiCall)
+        }
+    }
+
+    private fun printResponseLog(executeApiCall: Response<TestResponse>) {
+        when (val apiResponseCode = executeApiCall.raw().code) {
+            202 -> println("\nTest analytics data successfully uploaded to the BuildKite Test Suite.")
+            else -> println("\nError uploading test analytics data to the BuildKite Test Suite. Error code: $apiResponseCode")
         }
     }
 }
