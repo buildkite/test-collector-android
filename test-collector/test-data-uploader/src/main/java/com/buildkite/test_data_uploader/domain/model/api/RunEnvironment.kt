@@ -4,14 +4,14 @@ import com.google.gson.annotations.SerializedName
 import java.util.UUID
 
 data class RunEnvironment(
-    @SerializedName(value = "CI") val ci: String? = null,
-    @SerializedName(value = "key") val key: String = UUID.randomUUID().toString(),
-    @SerializedName(value = "url") val url: String? = null,
-    @SerializedName(value = "branch") val branch: String? = null,
-    @SerializedName(value = "commit_sha") val commitSha: String? = null,
-    @SerializedName(value = "number") val number: String? = null,
-    @SerializedName(value = "job_id") val jobId: String? = null,
-    @SerializedName(value = "message") val message: String? = null
+    @SerializedName("CI") val ci: String? = null,
+    @SerializedName("key") val key: String = UUID.randomUUID().toString(),
+    @SerializedName("url") val url: String? = null,
+    @SerializedName("branch") val branch: String? = null,
+    @SerializedName("commit_sha") val commitSha: String? = null,
+    @SerializedName("number") val number: String? = null,
+    @SerializedName("job_id") val jobId: String? = null,
+    @SerializedName("message") val message: String? = null
 ) {
     fun getEnvironmentValues(): RunEnvironment {
         val buildKiteRunEnvironment: RunEnvironment? = null

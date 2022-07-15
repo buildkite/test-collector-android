@@ -3,12 +3,10 @@ package com.buildkite.test_data_uploader.domain.model.api
 import com.google.gson.annotations.SerializedName
 
 data class Span(
-    val section: SpanSection = SpanSection.Top,
-    @SerializedName(value = "start_at")
-    val startAt: Long?,
-    @SerializedName(value = "end_at")
-    val endAt: Long?,
-    val duration: Double,
-    val detail: Map<String, String>? = emptyMap(),
-    val children: List<Span> = emptyList(),
+    @SerializedName("section") val section: SpanSection = SpanSection.Top,
+    @SerializedName("start_at") val startAt: Long?,
+    @SerializedName("end_at") val endAt: Long?,
+    @SerializedName("duration") val duration: Double,
+    @SerializedName("detail") val detail: Map<String, String>? = emptyMap(),
+    @SerializedName("children") val children: List<Span> = emptyList(),
 )

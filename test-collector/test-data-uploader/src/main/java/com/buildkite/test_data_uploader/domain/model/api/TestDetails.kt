@@ -4,16 +4,16 @@ import com.google.gson.annotations.SerializedName
 import java.util.UUID
 
 data class TestDetails(
-    @SerializedName(value = "id") val id: String = generateUUID(),
-    @SerializedName(value = "scope") val scope: String?,
-    @SerializedName(value = "name") val name: String,
-    @SerializedName(value = "identifier") val identifier: String,
-    @SerializedName(value = "location") val location: String?,
-    @SerializedName(value = "file_name") val fileName: String?,
-    @SerializedName(value = "result") val result: TraceResult,
-    @SerializedName(value = "failure_reason") val failureReason: String?,
-    @SerializedName(value = "failure_expanded") val failureExpanded: List<FailureExpanded> = emptyList(),
-    @SerializedName(value = "history") val history: Span
+    @SerializedName("id") val id: String = generateUUID(),
+    @SerializedName("scope") val scope: String?,
+    @SerializedName("name") val name: String,
+    @SerializedName("identifier") val identifier: String,
+    @SerializedName("location") val location: String?,
+    @SerializedName("file_name") val fileName: String?,
+    @SerializedName("result") val result: TraceResult,
+    @SerializedName("failure_reason") val failureReason: String?,
+    @SerializedName("failure_expanded") val failureExpanded: List<FailureExpanded> = emptyList(),
+    @SerializedName("history") val history: Span
 )
 
 private fun generateUUID(): String {
