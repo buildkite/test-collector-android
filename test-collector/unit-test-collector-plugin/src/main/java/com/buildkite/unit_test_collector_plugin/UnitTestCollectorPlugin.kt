@@ -19,13 +19,13 @@ class UnitTestCollectorPlugin : Plugin<Project> {
     override fun apply(project: Project) {
         val testDataUploader = TestDataUploader(
             testSuiteApiToken = System.getenv("BUILDKITE_ANALYTICS_TOKEN"),
-            isDebugEnabled = System.getenv("BUILDKITE_ANALYTICS_DEBUG_ENABLED")?.let { it.toBoolean() } ?: false
+            isDebugEnabled = System.getenv("BUILDKITE_ANALYTICS_DEBUG_ENABLED")
+                ?.let { it.toBoolean() } ?: false
         )
 
         project.tasks.withType(Test::class.java) { test ->
             test.addTestListener(object : TestListener {
                 private var testStartTime: Long = 0
-                private var isTestSuiteFinishedOnce = false
 
                 private var traceResult: TraceResult = TraceResult.Unknown
                 private var testFailureReason: String = ""
@@ -38,11 +38,11 @@ class UnitTestCollectorPlugin : Plugin<Project> {
                 }
 
                 override fun afterSuite(suite: TestDescriptor?, result: TestResult?) {
-                    if (!isTestSuiteFinishedOnce) {
-                        testDataUploader.collectTestBatch(testBatch = testBatch)
+                    suite?.let { testSuite ->
+                        if (testSuite.className == null && testSuite.parent == null) {
+                            testDataUploader.collectTestBatch(testBatch = testBatch)
+                        }
                     }
-
-                    isTestSuiteFinishedOnce = true
                 }
 
                 override fun beforeTest(testDescriptor: TestDescriptor?) {

@@ -17,13 +17,13 @@ abstract class InstrumentedTestCollector(
 ) : RunListener() {
 
     private var testStartTime: Long = 0
-    private var isTestSuiteFinishedOnce = false
 
     private var traceResult: TraceResult = TraceResult.Unknown
     private var testFailureReason: String = ""
     private var testFailureExpanded: List<FailureExpanded> = emptyList()
 
-    private val testDataUploader = TestDataUploader(testSuiteApiToken = apiToken, isDebugEnabled = isDebugEnabled)
+    private val testDataUploader =
+        TestDataUploader(testSuiteApiToken = apiToken, isDebugEnabled = isDebugEnabled)
     private val testBatch: MutableList<TestDetails> = mutableListOf()
 
     override fun testSuiteStarted(testDescription: Description?) {
@@ -31,11 +31,11 @@ abstract class InstrumentedTestCollector(
     }
 
     override fun testSuiteFinished(description: Description?) {
-        if (!isTestSuiteFinishedOnce) {
-            testDataUploader.collectTestBatch(testBatch = testBatch)
+        description?.let { testSuite ->
+            if ((testSuite.displayName.isNullOrEmpty() || testSuite.displayName == "null") && (testSuite.className.isNullOrEmpty() || testSuite.className == "null")) {
+                testDataUploader.collectTestBatch(testBatch = testBatch)
+            }
         }
-
-        isTestSuiteFinishedOnce = true
     }
 
     override fun testStarted(testDescription: Description?) {
