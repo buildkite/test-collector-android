@@ -72,10 +72,10 @@ abstract class InstrumentedTestCollector(
         )
 
         val testDetails = TestDetails(
-            scope = test.testClass.simpleName,
+            scope = test.testClass.name,
             name = test.methodName,
             identifier = "${test.className}.${test.methodName}",
-            location = test.displayName,
+            location = test.className,
             fileName = null,
             result = testObserver.result,
             failureReason = testObserver.failureReason,
