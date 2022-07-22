@@ -38,7 +38,7 @@ class TestDataUploader(
 
     private fun printResponseLog(executeApiCall: Response<TestResponse>) {
         when (val apiResponseCode = executeApiCall.raw().code) {
-            202 -> println("\nTest analytics data successfully uploaded to the BuildKite Test Suite!")
+            202 -> println("\nTest analytics data successfully uploaded to the BuildKite Test Suite. - ${executeApiCall.body()?.runUrl}")
             else -> println("\nError uploading test analytics data to the BuildKite Test Suite. Error code: $apiResponseCode")
         }
     }
