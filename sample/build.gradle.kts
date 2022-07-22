@@ -9,7 +9,7 @@ android {
     compileSdk = ConfigData.compileSdkVersion
 
     defaultConfig {
-        applicationId = "com.buildkite.sample"
+        applicationId = "com.buildkite.test.collector.android.sample"
         minSdk = ConfigData.minSdkVersion
         targetSdk = ConfigData.targetSdkVersion
         versionCode = ConfigData.versionCode
@@ -17,7 +17,7 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         testInstrumentationRunnerArguments += mapOf(
-            "listener" to "com.buildkite.sample.MyTestCollector"
+            "listener" to "com.buildkite.test.collector.android.sample.MyTestCollector"
         )
 
         vectorDrawables {

@@ -1,4 +1,4 @@
-package com.buildkite.sample
+package com.buildkite.test.collector.android.sample
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -13,7 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.buildkite.sample.ui.theme.ExampleProjectTheme
+import com.buildkite.test.collector.android.sample.ui.theme.ExampleProjectTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

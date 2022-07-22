@@ -1,4 +1,4 @@
-package com.buildkite.sample
+package com.buildkite.test.collector.android.sample
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
@@ -14,7 +14,7 @@ class InstrumentedTestsSet1 {
     @Test
     fun testWillPass() {
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
-        assertEquals("com.buildkite.sample", appContext.packageName)
+        assertEquals("com.buildkite.test.collector.android.sample", appContext.packageName)
     }
 
     @Test

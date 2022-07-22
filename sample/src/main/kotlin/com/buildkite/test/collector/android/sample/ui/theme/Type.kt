@@ -1,4 +1,4 @@
-package com.buildkite.sample.ui.theme
+package com.buildkite.test.collector.android.sample.ui.theme
 
 import androidx.compose.material.Typography
 import androidx.compose.ui.text.TextStyle

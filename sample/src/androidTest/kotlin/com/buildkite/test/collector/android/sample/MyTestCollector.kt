@@ -1,4 +1,4 @@
-package com.buildkite.sample
+package com.buildkite.test.collector.android.sample
 
 import com.buildkite.test.collector.android.InstrumentedTestCollector
 
