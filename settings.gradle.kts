@@ -1,3 +1,5 @@
+@file:Suppress("UnstableApiUsage")
+
 pluginManagement {
     repositories {
         gradlePluginPortal()
@@ -7,7 +9,6 @@ pluginManagement {
     }
 }
 dependencyResolutionManagement {
-    repositoriesMode.set(RepositoriesMode.PREFER_SETTINGS)
     repositories {
         google()
         mavenLocal()
@@ -15,7 +16,7 @@ dependencyResolutionManagement {
     }
 }
 include(":sample")
-include(":test-collector")
-include(":test-collector:instrumented-test-collector-library")
-include(":test-collector:unit-test-collector-plugin")
-include(":test-collector:test-data-uploader")
+include(":collector")
+include(":collector:instrumented-test-collector")
+include(":collector:unit-test-collector")
+include(":collector:test-data-uploader")

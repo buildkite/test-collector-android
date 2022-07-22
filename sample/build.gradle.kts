@@ -9,7 +9,7 @@ android {
     compileSdk = ConfigData.compileSdkVersion
 
     defaultConfig {
-        applicationId = "com.buildkite.sample"
+        applicationId = "com.buildkite.test.collector.android.sample"
         minSdk = ConfigData.minSdkVersion
         targetSdk = ConfigData.targetSdkVersion
         versionCode = ConfigData.versionCode
@@ -17,7 +17,7 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         testInstrumentationRunnerArguments += mapOf(
-            "listener" to "com.buildkite.sample.MyTestCollector"
+            "listener" to "com.buildkite.test.collector.android.sample.MyTestCollector"
         )
 
         vectorDrawables {
@@ -28,6 +28,11 @@ android {
             "String",
             "BUILDKITE_ANALYTICS_TOKEN",
             "\"${System.getenv("BUILDKITE_ANALYTICS_TOKEN")}\""
+        )
+        buildConfigField(
+            "boolean",
+            "BUILDKITE_ANALYTICS_DEBUG_ENABLED",
+            System.getenv("BUILDKITE_ANALYTICS_DEBUG_ENABLED")
         )
     }
 
@@ -70,8 +75,8 @@ dependencies {
     implementation(Dependencies.AndroidX.Compose.UI.uiToolingPreview)
 
     testImplementation(Dependencies.Testing.jUnit)
+    androidTestImplementation(project(":collector:instrumented-test-collector"))
 
-    androidTestImplementation(project(":test-collector:instrumented-test-collector-library"))
     // TODO: Only use below implementation to test the library published in local maven repository, Remove before publishing the repo and comment out before pushing changes
     // androidTestImplementation("com.buildkite.test-collector-android:instrumented-test-collector:0.1.0")
 

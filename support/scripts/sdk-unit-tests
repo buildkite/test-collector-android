@@ -10,6 +10,6 @@ function finish() {
 trap finish EXIT
 
 # Run all unit tests inside the test-collector module
-./gradlew clean :test-collector:instrumented-test-collector-library:testDebug
-./gradlew clean :test-collector:test-data-uploader:test
-./gradlew clean :test-collector:unit-test-collector-plugin:test
+./gradlew clean :collector:instrumented-test-collector:testDebug
+./gradlew clean :collector:test-data-uploader:test
+./gradlew clean :collector:unit-test-collector:test
