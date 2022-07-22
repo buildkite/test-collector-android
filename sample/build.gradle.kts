@@ -75,8 +75,8 @@ dependencies {
     implementation(Dependencies.AndroidX.Compose.UI.uiToolingPreview)
 
     testImplementation(Dependencies.Testing.jUnit)
+    androidTestImplementation(project(":collector:instrumented-test-collector"))
 
-    androidTestImplementation(project(":test-collector:instrumented-test-collector-library"))
     // TODO: Only use below implementation to test the library published in local maven repository, Remove before publishing the repo and comment out before pushing changes
     // androidTestImplementation("com.buildkite.test-collector-android:instrumented-test-collector:0.1.0")
 

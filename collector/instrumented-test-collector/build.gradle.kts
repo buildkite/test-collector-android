@@ -12,7 +12,6 @@ android {
         targetSdk = 32
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        consumerProguardFiles("consumer-rules.pro")
     }
 
     buildTypes {
@@ -34,8 +33,8 @@ android {
 }
 
 dependencies {
-    implementation(project(":test-collector:test-data-uploader"))
 
+    implementation(project(":collector:test-data-uploader"))
     implementation(Dependencies.AndroidX.coreKtx)
     implementation(Dependencies.AndroidX.appcompat)
     implementation(Dependencies.Google.Android.material)

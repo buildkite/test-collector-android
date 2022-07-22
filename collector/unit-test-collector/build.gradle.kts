@@ -5,8 +5,8 @@ plugins {
 }
 
 dependencies {
-    implementation(project(":test-collector:test-data-uploader"))
 
+    implementation(project(":collector:test-data-uploader"))
     api(gradleApi())
 }
 
