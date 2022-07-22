@@ -1,6 +1,6 @@
 package com.buildkite.sample
 
-import com.buildkite.instrumented_test_collector.InstrumentedTestCollector
+import com.buildkite.test.collector.android.InstrumentedTestCollector
 
 class MyTestCollector : InstrumentedTestCollector(
     apiToken = BuildConfig.BUILDKITE_ANALYTICS_TOKEN,
