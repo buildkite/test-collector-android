@@ -1,11 +1,11 @@
-package com.buildkite.test_data_uploader.domain.model.api
+package com.buildkite.test_data_uploader.models
 
+import com.buildkite.test_data_uploader.util.Helpers.generateUUID
 import com.google.gson.annotations.SerializedName
-import java.util.UUID
 
 data class RunEnvironment(
     @SerializedName("CI") val ci: String? = null,
-    @SerializedName("key") val key: String = UUID.randomUUID().toString(),
+    @SerializedName("key") val key: String = generateUUID(),
     @SerializedName("url") val url: String? = null,
     @SerializedName("branch") val branch: String? = null,
     @SerializedName("commit_sha") val commitSha: String? = null,
@@ -17,6 +17,7 @@ data class RunEnvironment(
         val buildKiteRunEnvironment: RunEnvironment? = null
         val gitHubActionsRunEnvironment: RunEnvironment? = null
         val circleCiRunEnvironment: RunEnvironment? = null
+        val genericCiRunEnvironment: RunEnvironment? = null
 
         val localRunEnvironment = RunEnvironment(
             ci = ci,
@@ -29,9 +30,12 @@ data class RunEnvironment(
             message = message
         )
 
-        return buildKiteRunEnvironment
+        val ciRunEnvironment: RunEnvironment? = buildKiteRunEnvironment
             ?: gitHubActionsRunEnvironment
             ?: circleCiRunEnvironment
+            ?: genericCiRunEnvironment
+
+        return ciRunEnvironment
             ?: localRunEnvironment
     }
 }

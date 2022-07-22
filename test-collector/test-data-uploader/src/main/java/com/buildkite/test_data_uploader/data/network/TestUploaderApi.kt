@@ -1,15 +1,16 @@
 package com.buildkite.test_data_uploader.data.network
 
-import com.buildkite.test_data_uploader.domain.model.api.TestData
-import com.buildkite.test_data_uploader.domain.model.api.TestResponse
+import com.buildkite.test_data_uploader.models.TestData
+import com.buildkite.test_data_uploader.models.TestResponse
+import com.buildkite.test_data_uploader.util.Constants.Network.TEST_UPLOADER_ENDPOINT
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.Headers
 import retrofit2.http.POST
 
-interface TestAnalyticsApi {
+interface TestUploaderApi {
 
-    @POST("uploads")
+    @POST(TEST_UPLOADER_ENDPOINT)
     @Headers(
         "Content-Type:application/json"
     )

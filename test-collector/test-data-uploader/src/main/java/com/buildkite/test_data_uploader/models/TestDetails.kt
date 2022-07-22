@@ -1,7 +1,7 @@
-package com.buildkite.test_data_uploader.domain.model.api
+package com.buildkite.test_data_uploader.models
 
+import com.buildkite.test_data_uploader.util.Helpers.generateUUID
 import com.google.gson.annotations.SerializedName
-import java.util.UUID
 
 data class TestDetails(
     @SerializedName("id") val id: String = generateUUID(),
@@ -15,7 +15,3 @@ data class TestDetails(
     @SerializedName("failure_expanded") val failureExpanded: List<FailureExpanded> = emptyList(),
     @SerializedName("history") val history: Span
 )
-
-private fun generateUUID(): String {
-    return UUID.randomUUID().toString()
-}

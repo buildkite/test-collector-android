@@ -1,4 +1,4 @@
-package com.buildkite.test_data_uploader.domain.model.api
+package com.buildkite.test_data_uploader.models
 
 import com.google.gson.annotations.SerializedName
 
