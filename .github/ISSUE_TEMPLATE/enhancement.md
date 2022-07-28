@@ -5,26 +5,18 @@ title: ''
 labels: "enhancement"
 assignees: ''
 ---
-## 💬  User story
+## 💬  Context
 
-```gerkin
-As a ...
-I want ...
-So that ...
-```
+<!-- Describe the context of this suggestion. Why is it important to you? -->
 
 ## 📝 Notes
 
-<!-- Additional notes on the feature -->
-
-## 👩‍🎨 Visual Design
-
-<!-- Attach an image or link to the design of the feature -->
+<!-- Additional notes on the enhancement or feature -->
 
 ## 👩‍🔧 Technical Design Notes
 
 <!-- Provide any technical implementation notes here. Eg, service API calls, or other technical considerations -->
 
-## 🤝 Relationships
+## 🤝 Related
 
-- Other Related Issues: #xxx, #yyy
+- Related PR, issue or link: #xxx, #yyy, https://...
