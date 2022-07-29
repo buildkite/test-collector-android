@@ -1,8 +1,6 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
-    // TODO: Use below plugin to test the plugin published in local maven repository, Remove before publishing the repo and comment out before pushing changes
-    // id("com.buildkite.test-collector-android.unit-test-collector-plugin") version "0.1.0-SNAPSHOT"
 }
 
 android {
@@ -66,6 +64,7 @@ android {
 }
 
 dependencies {
+    androidTestImplementation(project(":collector:instrumented-test-collector"))
 
     implementation(Dependencies.AndroidX.coreKtx)
     implementation(Dependencies.AndroidX.lifecycle)
@@ -75,10 +74,6 @@ dependencies {
     implementation(Dependencies.AndroidX.Compose.UI.uiToolingPreview)
 
     testImplementation(Dependencies.Testing.jUnit)
-    androidTestImplementation(project(":collector:instrumented-test-collector"))
-
-    // TODO: Only use below implementation to test the library published in local maven repository, Remove before publishing the repo and comment out before pushing changes
-    // androidTestImplementation("com.buildkite.test-collector-android:instrumented-test-collector:0.1.0-SNAPSHOT")
 
     androidTestImplementation(Dependencies.AndroidX.Test.junit)
     androidTestImplementation(Dependencies.AndroidX.Test.espressoCore)

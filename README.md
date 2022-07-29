@@ -27,7 +27,7 @@ buildScript {
     ...
     dependencies {
         ...
-        classpath("com.buildkite.test-collector-android:unit-test-collector-plugin:0.1.0-SNAPSHOT")
+        classpath("com.buildkite.test-collector-android:unit-test-collector-plugin:0.1.0")
     }
 }
 ```
@@ -49,7 +49,7 @@ In your app-level build.gradle.kts file,
 Add the following dependency:
 
 ```
-androidTestImplementation("com.buildkite.test-collector-android:instrumented-test-collector:0.1.0-SNAPSHOT")
+androidTestImplementation("com.buildkite.test-collector-android:instrumented-test-collector:0.1.0")
 ```
 
 ```
