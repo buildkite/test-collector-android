@@ -1,13 +1,13 @@
 ---
 name: Tech task
-about: Create a technical task (or chore) for tracking work adjacent to features. 
+about: Create a technical task (or chore) for tracking work adjacent to features.
 title: ''
 labels: ''
 assignees: ''
 ---
 ## ❕ Problem Statement
 
-<!-- Clearly describe what the problem this tech task is attempting to address. -->
+<!-- Clearly describe what this tech task is attempting to address. -->
 
 ## 💬 Task Description
 
@@ -17,6 +17,6 @@ assignees: ''
 
 <!-- Provide any technical design notes here. -->
 
-## 🤝 Relationships
+## 🤝 Related
 
-- Other Related Issues: #xxx, #yyy
+- Related PR, issue or link: #xxx, #yyy, https://...

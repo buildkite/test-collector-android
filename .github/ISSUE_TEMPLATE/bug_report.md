@@ -5,22 +5,12 @@ title: ''
 labels: "bug"
 assignees: ''
 ---
-<!--
-How to prepare your bug report.
-
-1. ☝️ Provide a _short but descriptive title_ for this bug above.
-2. 🏷 _Label_ your bug report appropriately.
-  - All bug reports should be labeled with the `bug` label.
-4. ✅ Fill in all the relevant sections below (or delete them if not applicable).
--->
-
 ## 🌎 Environment
 
-- Environment: <!-- e.g. Production, Staging, Dev, etc -->
-- Device: <!-- e.g. Google Pixel -->
-- OS: <!-- e.g. Android 11 -->
-- App Version & Build: <!-- e.g. 1.0.2 (22) -->
-- Possible Cause: <!-- provide a Git commit SHA, or GitHub issue/PR reference -->
+- collector-android version: <!-- e.g. 1.0.0 -->
+- Android Studio: <!-- e.g. 13.3 -->
+- Kotlin: <!-- e.g. iOS 5.6 -->
+- OS: <!-- e.g. iOS 15.5 -->
 
 ## 💬 Description
 
@@ -28,31 +18,25 @@ How to prepare your bug report.
 
 ## 🦶 Reproduction Steps
 
-Steps to reproduce the behavior:
-
 1. Go to '...'
-2. Click on '....'
-3. Scroll down to '....'
+2. Click on '...'
+3. Scroll down to '...'
 4. See error
 
 ## 🤔 Expected Results
 
 <!-- Provide a clear and concise description of what you expected to happen. -->
 
-## 😲 Actual Results
-
-<!-- Provide a clear and concise description of what actually happened. -->
-
 ## 📸 Screenshots
 
-<!-- If applicable, add screenshots or videos/screen recodings to help explain your problem. -->
+<!-- If applicable, add screenshots or videos/screen recordings to help explain your problem. -->
 
 ## 📎 Attachments
 
 <!-- Attach addition files here. Eg, logs, stack traces, crash reports, zip files, etc. -->
 
-## 🤝 Relationships
+## 🤝 Related
 
-<!-- Remember to link this bug with any other related issues. -->
+<!-- Anything you think is related, including other PRs, issues or links -->
 
-- Related PRs or Issues: #xxx, #yyy
+- Related PR, issue or link: #xxx, #yyy, https://...
