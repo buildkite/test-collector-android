@@ -95,7 +95,7 @@ device/emulator has network access.
 The Android test collector is separated into two parts - one for instrumented tests, and another for
 unit tests.
 
-Both parts upload tests via a common java library. See `test-collector/test-data-uploader`
+Both parts upload tests via a common java library. See `collector/test-data-uploader`
 
 #### Instrumented Tests
 
@@ -105,7 +105,7 @@ own custom test listener. This listener observes test runs, and calls our test u
 results.
 
 This listener is provided to the user as an Android library.
-See `test-collector/instrumented-test-collector-library`
+See `collector/instrumented-test-collector`
 
 At minimum, the test listener requires an API token in order to publish results to Buildkite's
 servers.
@@ -128,7 +128,7 @@ using a JUnit test listener, we hook into the Gradle testing APIs, and add a tes
 Gradle.
 
 This listener is provided to the user as a Gradle plugin.
-See `test-collector/unit-test-collector-plugin`
+See `collector/unit-test-collector`
 
 Note that there is no equivalent gradle API for instrumented tests, hence the two separate
 approaches.
