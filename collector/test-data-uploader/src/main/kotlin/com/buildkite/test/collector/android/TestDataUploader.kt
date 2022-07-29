@@ -6,6 +6,7 @@ import com.buildkite.test.collector.android.models.RunEnvironment
 import com.buildkite.test.collector.android.models.TestData
 import com.buildkite.test.collector.android.models.TestDetails
 import com.buildkite.test.collector.android.models.TestResponse
+import com.buildkite.test.collector.android.util.Constants.Collector
 import retrofit2.Response
 
 class TestDataUploader(
@@ -18,7 +19,7 @@ class TestDataUploader(
         val testData = TestData(
             format = "json",
             runEnvironment = runEnvironment,
-            data = testCollection
+            data = testCollection.take(Collector.TEST_DATA_UPLOAD_LIMIT)
         )
 
         uploadTestData(testData = testData)
