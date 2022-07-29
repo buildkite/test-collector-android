@@ -1,7 +1,10 @@
 name: Test Sample Project To Verify Test Collector Integration
 
+# this workflow will always fail since we've added failing tests to verify collector integration with all kinds of possible test results
+
 on:
   push:
+    branches: [ main ]
   pull_request:
     branches: [ main ]
 

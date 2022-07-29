@@ -1,4 +1,4 @@
-# Buildkite Collectors for Android
+# Buildkite Collectors for Android (Beta)
 
 Official [Buildkite Test Analytics](https://buildkite.com/test-analytics) collectors for Android ✨
 
