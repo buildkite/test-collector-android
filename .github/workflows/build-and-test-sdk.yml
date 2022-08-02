@@ -11,10 +11,6 @@ jobs:
     name: Build and Test SDK Project
     runs-on: ubuntu-latest
 
-    env:
-      BUILDKITE_ANALYTICS_TOKEN: ${{ secrets.BUILDKITE_ANALYTICS_TOKEN }}
-      BUILDKITE_ANALYTICS_DEBUG_ENABLED: ${{ secrets.BUILDKITE_ANALYTICS_DEBUG_ENABLED }}
-
     steps:
       - name: Git Checkout
         uses: actions/checkout@v3
