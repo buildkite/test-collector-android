@@ -6,6 +6,7 @@ import com.buildkite.test.collector.android.models.RunEnvironment
 import com.buildkite.test.collector.android.models.TestData
 import com.buildkite.test.collector.android.models.TestDetails
 import com.buildkite.test.collector.android.models.TestResponse
+import com.buildkite.test.collector.android.util.Constants.Collector
 import retrofit2.Response
 
 class TestDataUploader(
@@ -18,7 +19,7 @@ class TestDataUploader(
         val testData = TestData(
             format = "json",
             runEnvironment = runEnvironment,
-            data = testCollection
+            data = testCollection.take(Collector.TEST_DATA_UPLOAD_LIMIT)
         )
 
         uploadTestData(testData = testData)
@@ -39,7 +40,7 @@ class TestDataUploader(
     private fun logApiResponse(executeApiCall: Response<TestResponse>) {
         when (val apiResponseCode = executeApiCall.raw().code) {
             202 -> println("\nTest analytics data successfully uploaded to the BuildKite Test Suite. - ${executeApiCall.body()?.runUrl}")
-            else -> println("\nError uploading test analytics data to the BuildKite Test Suite. Error code: $apiResponseCode")
+            else -> println("\nError uploading test analytics data to the BuildKite Test Suite. Error code: $apiResponseCode! Ensure that the test suite API Token is correct.")
         }
     }
 }
