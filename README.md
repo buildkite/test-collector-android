@@ -90,6 +90,12 @@ testInstrumentationRunnerArguments += mapOf(
 Note: This test collector uploads test data via the device under test. Make sure your Android
 device/emulator has network access.
 
+## 🔍 Debugging
+
+To enable debugging output, create and set `BUILDKITE_ANALYTICS_DEBUG_ENABLED` environment variable to `true` on your test environment (CI server or local machine).
+
+For instrumented tests debugging, access the variable using `buildConfigField` and pass it through your `MyTestCollector` class. Refer the [sample project](https://github.com/buildkite/test-collector-android/blob/main/sample/) for implementation.
+
 ## ⚒ Developing
 
 The Android test collector is separated into two parts - one for instrumented tests, and another for
@@ -136,6 +142,17 @@ approaches.
 Fortunately, since unit tests run on the CI/local machine, our Gradle plugin has direct access to
 environment variables, so no additional config is required.
 
+#### Access Snapshots
+
+To access and test the published snapshots, add the below repository configuration inside `repositories` block, and append the dependency versions with `-SNAPSHOT`:
+
+```
+maven {
+    url = uri("https://s01.oss.sonatype.org/content/repositories/snapshots/")
+}
+```
+
+The snapshots can be found [here](https://s01.oss.sonatype.org/content/repositories/snapshots/com/buildkite/).
 
 ---
 
