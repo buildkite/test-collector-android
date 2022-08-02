@@ -30,7 +30,7 @@ android {
         buildConfigField(
             "boolean",
             "BUILDKITE_ANALYTICS_DEBUG_ENABLED",
-            System.getenv("BUILDKITE_ANALYTICS_DEBUG_ENABLED")
+            System.getenv("BUILDKITE_ANALYTICS_DEBUG_ENABLED") ?: "false"
         )
     }
 
