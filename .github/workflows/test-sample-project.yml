@@ -3,38 +3,33 @@ name: Test Sample Project To Verify Test Collector Integration
 # this workflow will always fail since we've added failing tests to verify collector integration with all kinds of possible test results
 
 on:
-  push:
-    branches: [ main ]
   pull_request:
     branches: [ main ]
 
 jobs:
+  sample-project-unit-tests:
+    name: Run Sample Project Unit Tests
+    runs-on: ubuntu-latest
 
-# Re-add below job-block upon adding published unit collector plugin implementation
+    env:
+      BUILDKITE_ANALYTICS_TOKEN: ${{ secrets.BUILDKITE_ANALYTICS_TOKEN }}
+      BUILDKITE_ANALYTICS_DEBUG_ENABLED: ${{ secrets.BUILDKITE_ANALYTICS_DEBUG_ENABLED }}
 
-#  sample-project-unit-tests:
-#    name: Run Sample Project Unit Tests
-#    runs-on: ubuntu-latest
-#
-#    env:
-#      BUILDKITE_ANALYTICS_TOKEN: ${{ secrets.BUILDKITE_ANALYTICS_TOKEN }}
-#      BUILDKITE_ANALYTICS_DEBUG_ENABLED: ${{ secrets.BUILDKITE_ANALYTICS_DEBUG_ENABLED }}
+    steps:
+      - name: Git Checkout
+        uses: actions/checkout@v3
 
-#    steps:
-#      - name: Git Checkout
-#        uses: actions/checkout@v3
-#
-#      - name: Set up JDK 11
-#        uses: actions/setup-java@v3.3.0
-#        with:
-#          distribution: zulu
-#          java-version: 11
-#
-#      - name: Debug Build
-#        run: ./gradlew :sample:buildDebug
-#
-#      - name: Sample Project Unit Tests
-#        run: "support/scripts/sample-unit-tests"
+      - name: Set up JDK 11
+        uses: actions/setup-java@v3.3.0
+        with:
+          distribution: zulu
+          java-version: 11
+
+      - name: Debug Build
+        run: ./gradlew :sample:buildDebug
+
+      - name: Sample Project Unit Tests
+        run: "support/scripts/sample-unit-tests"
 
   sample-project-instrumented-tests:
     name: Run Sample Project Instrumented Tests
