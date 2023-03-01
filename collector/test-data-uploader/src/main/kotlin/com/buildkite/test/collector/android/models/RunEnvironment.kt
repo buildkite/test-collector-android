@@ -47,6 +47,6 @@ data class RunEnvironment(
         // When bumping version, update VERSION_NAME to match new version
         // Used for uploading correct library version
         val VERSION_NAME = "0.2.0-SNAPSHOT"
-        val COLLECTOR_NAME = "test-collector-android"
+        val COLLECTOR_NAME = "android-buildkite-test-collector"
     }
 }
