@@ -15,4 +15,5 @@ dependencies {
     implementation(Dependencies.Squareup.Okhttp3.okhttp)
     implementation(Dependencies.Squareup.Okhttp3.loggingInterceptor)
     implementation(Dependencies.Google.Code.gson)
+    implementation(Dependencies.Testing.jUnit)
 }
