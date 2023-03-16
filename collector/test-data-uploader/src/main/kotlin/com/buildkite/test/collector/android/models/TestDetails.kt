@@ -7,7 +7,6 @@ data class TestDetails(
     @SerializedName("id") val id: String = generateUUID(),
     @SerializedName("scope") val scope: String?,
     @SerializedName("name") val name: String,
-    @SerializedName("identifier") val identifier: String,
     @SerializedName("location") val location: String?,
     @SerializedName("file_name") val fileName: String?,
     @SerializedName("result") val result: TraceResult,
