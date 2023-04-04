@@ -78,7 +78,6 @@ class UnitTestCollectorPlugin : Plugin<Project> {
                     val testDetails = TestDetails(
                         scope = test.className,
                         name = test.displayName,
-                        identifier = "${test.className}.${test.displayName}",
                         location = test.className,
                         fileName = null,
                         result = testObserver.result,
