@@ -10,7 +10,7 @@ import com.buildkite.test.collector.android.util.Constants.Collector
 import retrofit2.Response
 
 class TestDataUploader(
-    val testSuiteApiToken: String,
+    val testSuiteApiToken: String?,
     val isDebugEnabled: Boolean
 ) {
     fun configureUploadData(testCollection: List<TestDetails>) {
@@ -26,14 +26,18 @@ class TestDataUploader(
     }
 
     private fun uploadTestData(testData: TestData) {
-        val retroService = RetrofitInstance.getRetrofitInstance(testSuiteApiToken = testSuiteApiToken)
-            .create(TestUploaderApi::class.java)
-        val uploadTestDataApiCall = retroService.uploadTestData(testData = testData)
+        if (testSuiteApiToken == null) {
+            println("Buildkite test suite API token is missing. Please set up your API token environment variable to upload the analytics data. Follow [README] for further information.")
+        } else {
+            val retroService = RetrofitInstance.getRetrofitInstance(testSuiteApiToken = testSuiteApiToken)
+                .create(TestUploaderApi::class.java)
+            val uploadTestDataApiCall = retroService.uploadTestData(testData = testData)
 
-        val executeApiCall = uploadTestDataApiCall.execute()
+            val executeApiCall = uploadTestDataApiCall.execute()
 
-        if (isDebugEnabled) {
-            logApiResponse(executeApiCall)
+            if (isDebugEnabled) {
+                logApiResponse(executeApiCall)
+            }
         }
     }
 
