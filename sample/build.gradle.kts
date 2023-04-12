@@ -1,7 +1,6 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
-    id("com.buildkite.test-collector-android.unit-test-collector-plugin")
 }
 
 android {

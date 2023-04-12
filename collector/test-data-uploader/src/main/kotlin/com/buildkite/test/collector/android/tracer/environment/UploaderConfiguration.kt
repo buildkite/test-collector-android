@@ -13,11 +13,11 @@ fun configureInstrumentedTestUploader(
     apiToken: String,
     isDebugEnabled: Boolean
 ) = TestDataUploader(
-    testSuiteApiToken = apiToken,
+    testSuiteApiToken = apiToken.takeIf { token -> token != "null" },
     isDebugEnabled = isDebugEnabled
 )
 
-private fun getStringEnvironmentValue(name: String): String {
+private fun getStringEnvironmentValue(name: String): String? {
     return System.getenv(name)
 }
 
