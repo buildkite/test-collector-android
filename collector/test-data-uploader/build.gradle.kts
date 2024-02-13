@@ -1,3 +1,5 @@
+@file:Suppress("UnstableApiUsage")
+
 plugins {
     id("java-library")
     id("org.jetbrains.kotlin.jvm")
@@ -10,10 +12,11 @@ java {
 }
 
 dependencies {
-    implementation(Dependencies.Squareup.Retrofit2.retrofit)
-    implementation(Dependencies.Squareup.Retrofit2.converterGson)
-    implementation(Dependencies.Squareup.Okhttp3.okhttp)
-    implementation(Dependencies.Squareup.Okhttp3.loggingInterceptor)
-    implementation(Dependencies.Google.Code.gson)
-    implementation(Dependencies.Testing.jUnit)
+    implementation(libs.retrofit.core)
+    implementation(libs.retrofit.converter.gson)
+    implementation(libs.okhttp)
+    implementation(libs.okhttp.logging)
+    implementation(libs.google.gson)
+
+    testImplementation(libs.testing.junit)
 }

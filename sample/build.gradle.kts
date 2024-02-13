@@ -1,17 +1,19 @@
+@file:Suppress("UnstableApiUsage")
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
 }
 
 android {
-    compileSdk = ConfigData.compileSdkVersion
+    compileSdk = 32
 
     defaultConfig {
         applicationId = "com.buildkite.test.collector.android.sample"
-        minSdk = ConfigData.minSdkVersion
-        targetSdk = ConfigData.targetSdkVersion
-        versionCode = ConfigData.versionCode
-        versionName = ConfigData.versionName
+        minSdk = 23
+        targetSdk = 32
+        versionCode = 1
+        versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         testInstrumentationRunnerArguments += mapOf(
@@ -54,7 +56,7 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = Dependencies.AndroidX.Compose.version
+        kotlinCompilerExtensionVersion = libs.versions.androidxComposeCompiler.get()
     }
     packagingOptions {
         resources {
@@ -66,19 +68,19 @@ android {
 dependencies {
     androidTestImplementation(project(":collector:instrumented-test-collector"))
 
-    implementation(Dependencies.AndroidX.coreKtx)
-    implementation(Dependencies.AndroidX.lifecycle)
-    implementation(Dependencies.AndroidX.activity)
-    implementation(Dependencies.AndroidX.Compose.material)
-    implementation(Dependencies.AndroidX.Compose.UI.ui)
-    implementation(Dependencies.AndroidX.Compose.UI.uiToolingPreview)
+    implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.lifecycle.runtimeKtx)
+    implementation(libs.androidx.activity.compose)
+    implementation(libs.androidx.compose.material)
+    implementation(libs.androidx.compose.ui)
+    implementation(libs.androidx.compose.ui.tooling.preview)
 
-    testImplementation(Dependencies.Testing.jUnit)
+    testImplementation(libs.testing.junit)
 
-    androidTestImplementation(Dependencies.AndroidX.Test.junit)
-    androidTestImplementation(Dependencies.AndroidX.Test.espressoCore)
-    androidTestImplementation(Dependencies.AndroidX.Compose.UI.Test.uiTestJunit)
+    androidTestImplementation(libs.androidx.test.ext)
+    androidTestImplementation(libs.androidx.test.espresso.core)
+    androidTestImplementation(libs.androidx.compose.ui.test)
 
-    debugImplementation(Dependencies.AndroidX.Compose.UI.Debug.uiTooling)
-    debugImplementation(Dependencies.AndroidX.Compose.UI.Debug.uiTestManifest)
+    androidTestImplementation(libs.androidx.compose.ui.tooling)
+    androidTestImplementation(libs.androidx.compose.ui.testManifest)
 }

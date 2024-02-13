@@ -1,3 +1,5 @@
+@file:Suppress("UnstableApiUsage")
+
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
@@ -33,15 +35,15 @@ android {
 }
 
 dependencies {
-
     implementation(project(":collector:test-data-uploader"))
-    implementation(Dependencies.AndroidX.coreKtx)
-    implementation(Dependencies.AndroidX.appcompat)
-    implementation(Dependencies.Google.Android.material)
-    api(Dependencies.Testing.jUnit)
 
-    testImplementation(Dependencies.Testing.jUnit)
+    implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.appcompat)
+    implementation(libs.google.material)
 
-    androidTestImplementation(Dependencies.AndroidX.Test.junit)
-    androidTestImplementation(Dependencies.AndroidX.Test.espressoCore)
+    api(libs.testing.junit)
+    testImplementation(libs.testing.junit)
+
+    androidTestImplementation(libs.androidx.test.ext)
+    androidTestImplementation(libs.androidx.test.espresso.core)
 }
