@@ -2,19 +2,20 @@
 
 pluginManagement {
     repositories {
-        gradlePluginPortal()
         google()
-        mavenLocal()
         mavenCentral()
+        mavenLocal()
+        gradlePluginPortal()
     }
 }
 dependencyResolutionManagement {
     repositories {
         google()
-        mavenLocal()
         mavenCentral()
+        mavenLocal()
     }
 }
+
 include(":sample")
 include(":collector")
 include(":collector:instrumented-test-collector")

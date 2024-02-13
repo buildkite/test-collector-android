@@ -1,13 +1,12 @@
+@Suppress("DSL_SCOPE_VIOLATION", "UnstableApiUsage")
 plugins {
     id("java-gradle-plugin")
     id("org.jetbrains.kotlin.jvm")
-    id("com.vanniktech.maven.publish")
+    alias(libs.plugins.maven.publish)
 }
 
 dependencies {
     implementation(project(":collector:test-data-uploader"))
-
-    api(gradleApi())
 }
 
 gradlePlugin {
