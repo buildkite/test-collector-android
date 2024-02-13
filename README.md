@@ -145,6 +145,7 @@ environment variables, so no additional config is required.
 #### Bumping Version
 
 When bumping the version, update the version in `gradle.properties` as well as `RunEnvironment.VERSION_NAME`.
+Avoid using the -SNAPSHOT suffix in RunEnvironment.VERSION_NAME, since it gets be removed automatically upon release. This ensure that we send the accurate library version name.
 
 This ensures the correct library version is uploaded alongside the test analytics.
 
