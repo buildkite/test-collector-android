@@ -16,7 +16,10 @@ dependencyResolutionManagement {
     }
 }
 
-include(":sample")
+rootProject.name = "TestCollectorSDK"
+
+include(":example")
+
 include(":collector")
 include(":collector:instrumented-test-collector")
 include(":collector:unit-test-collector")
