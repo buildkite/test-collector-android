@@ -66,7 +66,7 @@ android {
 }
 
 dependencies {
-    androidTestImplementation(project(":collector:instrumented-test-collector"))
+    androidTestImplementation(projects.collector.instrumentedTestCollector)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtimeKtx)

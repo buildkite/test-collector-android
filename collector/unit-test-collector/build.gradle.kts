@@ -6,7 +6,7 @@ plugins {
 }
 
 dependencies {
-    implementation(project(":collector:test-data-uploader"))
+    implementation(projects.collector.testDataUploader)
 }
 
 gradlePlugin {

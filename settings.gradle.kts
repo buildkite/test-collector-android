@@ -21,4 +21,6 @@ include(":collector")
 include(":collector:instrumented-test-collector")
 include(":collector:unit-test-collector")
 include(":collector:test-data-uploader")
+
 enableFeaturePreview("VERSION_CATALOGS")
+enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")

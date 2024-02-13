@@ -36,7 +36,7 @@ android {
 }
 
 dependencies {
-    implementation(project(":collector:test-data-uploader"))
+    implementation(projects.collector.testDataUploader)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
