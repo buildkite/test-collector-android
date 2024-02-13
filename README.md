@@ -142,25 +142,6 @@ approaches.
 Fortunately, since unit tests run on the CI/local machine, our Gradle plugin has direct access to
 environment variables, so no additional config is required.
 
-#### Bumping Version
-
-When bumping the version, update the version in `gradle.properties` as well as `RunEnvironment.VERSION_NAME`.
-Avoid using the -SNAPSHOT suffix in RunEnvironment.VERSION_NAME, since it gets be removed automatically upon release. This ensure that we send the accurate library version name.
-
-This ensures the correct library version is uploaded alongside the test analytics.
-
-Other approaches were considered when trying to solve the issue of uploading the library version.
-
-The user could create a new environment variable for the version number. The collectors can then
-access the version number through this and create `TestDataUploader` with this information. However,
-the user would need to update this environment variable every time they update the library.
-
-Another approach would be to use code generation to automatically generate some code upon publishing
-this library. It could try to read the library's version and expose this to the library to use. Frankly,
-this approach seems to be ideal but is very difficult to achieve.
-
-Therefore we went with the simple but manual approach to update the version ourselves.
-
 #### Access Snapshots
 
 To access and test the published snapshots, add the below repository configuration inside `repositories` block, and append the dependency versions with `-SNAPSHOT`:
@@ -180,8 +161,8 @@ the [Buildkite Test Analytics docs](https://buildkite.com/docs/test-analytics).
 
 ## 👩‍💻 Contributing
 
-Bug reports and pull requests are welcome on GitHub
-at https://github.com/buildkite/test-collector-android
+Please refer the contribution guide [here](CONTRIBUTION.md). 
+Bug reports and pull requests are welcome on GitHub at https://github.com/buildkite/test-collector-android
 
 ## 📜 License
 
