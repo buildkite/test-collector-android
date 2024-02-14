@@ -1,6 +1,3 @@
-@file:Suppress("UnstableApiUsage")
-
-@Suppress("DSL_SCOPE_VIOLATION")
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
@@ -8,11 +5,10 @@ plugins {
 }
 
 android {
-    compileSdk = 32
+    compileSdk = 34
 
     defaultConfig {
         minSdk = 23
-        targetSdk = 32
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -33,18 +29,10 @@ android {
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_1_8.toString()
     }
+    namespace = "com.buildkite.test.collector.android"
 }
 
 dependencies {
     implementation(projects.collector.testDataUploader)
-
-    implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.appcompat)
-    implementation(libs.google.material)
-
-    api(libs.testing.junit)
-    testImplementation(libs.testing.junit)
-
-    androidTestImplementation(libs.androidx.test.ext)
-    androidTestImplementation(libs.androidx.test.espresso.core)
+    implementation(libs.testing.junit)
 }

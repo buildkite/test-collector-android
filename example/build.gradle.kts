@@ -1,24 +1,20 @@
-@file:Suppress("UnstableApiUsage", "DSL_SCOPE_VIOLATION")
-
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
 }
 
 android {
-    compileSdk = 32
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "com.buildkite.test.collector.android.example"
         minSdk = 23
-        targetSdk = 32
+        targetSdk = 34
         versionCode = 1
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        testInstrumentationRunnerArguments += mapOf(
-            "listener" to "com.buildkite.test.collector.android.example.ExampleTestCollector"
-        )
+        testInstrumentationRunnerArguments += mapOf("listener" to "com.buildkite.test.collector.android.example.ExampleTestCollector")
 
         vectorDrawables {
             useSupportLibrary = true
@@ -46,23 +42,25 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
     kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_1_8.toString()
+        jvmTarget = JavaVersion.VERSION_11.toString()
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
     composeOptions {
         kotlinCompilerExtensionVersion = libs.versions.androidxComposeCompiler.get()
     }
-    packagingOptions {
+    packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
+    namespace = "com.buildkite.test.collector.android.example"
 }
 
 dependencies {
@@ -71,6 +69,7 @@ dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtimeKtx)
     implementation(libs.androidx.activity.compose)
+    implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.compose.material)
     implementation(libs.androidx.compose.ui)
     implementation(libs.androidx.compose.ui.tooling.preview)
@@ -78,9 +77,5 @@ dependencies {
     testImplementation(libs.testing.junit)
 
     androidTestImplementation(libs.androidx.test.ext)
-    androidTestImplementation(libs.androidx.test.espresso.core)
     androidTestImplementation(libs.androidx.compose.ui.test)
-
-    androidTestImplementation(libs.androidx.compose.ui.tooling)
-    androidTestImplementation(libs.androidx.compose.ui.testManifest)
 }

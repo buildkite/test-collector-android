@@ -1,4 +1,3 @@
-@Suppress("DSL_SCOPE_VIOLATION", "UnstableApiUsage")
 plugins {
     id("java-gradle-plugin")
     id("org.jetbrains.kotlin.jvm")
