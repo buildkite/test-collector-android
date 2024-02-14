@@ -4,7 +4,7 @@ set -xeu
 set -o pipefail
 
 function finish() {
-  printf "\n---Finished Running Sample Project Unit Tests---\n"
+  printf "\n---Finished Running Example Project Unit Tests---\n"
 }
 
 trap finish EXIT

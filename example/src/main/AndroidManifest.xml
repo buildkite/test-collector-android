@@ -12,12 +12,12 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.CollectorSample"
+        android:theme="@style/Theme.CollectorExample"
         tools:targetApi="31">
         <activity
             android:name="com.buildkite.test.collector.android.example.MainActivity"
             android:exported="true"
-            android:theme="@style/Theme.CollectorSample">
+            android:theme="@style/Theme.CollectorExample">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

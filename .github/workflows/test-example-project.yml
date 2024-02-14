@@ -1,4 +1,4 @@
-name: Test Sample Project To Verify Test Collector Integration
+name: Test Example Project To Verify Test Collector Integration
 
 # this workflow will always fail since we've added failing tests to verify collector integration with all kinds of possible test results
 
@@ -8,7 +8,7 @@ on:
 
 jobs:
   example-project-unit-tests:
-    name: Run Sample Project Unit Tests
+    name: Run Example Project Unit Tests
     runs-on: ubuntu-latest
 
     env:
@@ -28,11 +28,11 @@ jobs:
       - name: Debug Build
         run: ./gradlew :example:buildDebug
 
-      - name: Sample Project Unit Tests
+      - name: Example Project Unit Tests
         run: "support/scripts/example-unit-tests"
 
   example-project-instrumented-tests:
-    name: Run Sample Project Instrumented Tests
+    name: Run Example Project Instrumented Tests
     runs-on: macos-latest
 
     env:
@@ -52,7 +52,7 @@ jobs:
       - name: Debug Build
         run: ./gradlew :example:buildDebug
 
-      - name: Sample Project Instrumented Tests
+      - name: Example Project Instrumented Tests
         uses: reactivecircus/android-emulator-runner@v2
         with:
           api-level: 27
