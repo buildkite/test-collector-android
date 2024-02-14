@@ -10,7 +10,7 @@ junit = "4.13.2"
 kotlin = "1.8.22"
 okhttp = "5.0.0-alpha.2"
 retrofit = "2.9.0"
-mavenPublish = "0.20.0"
+mavenPublish = "0.27.0"
 unitTestCollector = "0.2.0-SNAPSHOT"
 
 [libraries]
