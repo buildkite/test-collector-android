@@ -20,23 +20,11 @@ or otherwise on your local machine.
 
 ### Step 3 - Unit Test Collector
 
-In your top-level build.gradle.kts file, add the following to your classpath:
-
-```
-buildScript {
-    ...
-    dependencies {
-        ...
-        classpath("com.buildkite.test-collector-android:unit-test-collector-plugin:0.1.0")
-    }
-}
-```
-
-Then, in your app-level build.gradle.kts, add the following plugin:
+In your app-level build.gradle.kts, add the following plugin:
 
 ```
 plugins {
-    id("com.buildkite.test-collector-android.unit-test-collector-plugin")
+    id("com.buildkite.test-collector-android.unit-test-collector-plugin").version("0.1.0")
 }
 ```
 
