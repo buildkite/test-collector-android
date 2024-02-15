@@ -8,7 +8,7 @@ on:
 
 jobs:
   build-and-test-sdk:
-    name: Build and Test SDK Project
+    name: Build and Test SDK
     runs-on: ubuntu-latest
 
     env:
@@ -24,6 +24,9 @@ jobs:
         with:
           distribution: zulu
           java-version: 17
+
+      - name: Lint Project
+        run: "support/scripts/lint"
 
       - name: Run SDK Unit Tests
         run: "support/scripts/sdk-unit-tests"
