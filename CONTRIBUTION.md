@@ -12,7 +12,7 @@ Once you have completed the setup, you can start implementing your changes.
 
 ### Test Local Changes
 
-Currently, our sample project references the local `collector/instrumented-test-collector` library to enable immediate testing of changes related to the instrumented test collector. 
+Currently, our example project references the local `collector/instrumented-test-collector` library to enable immediate testing of changes related to the instrumented test collector. 
 However, immediate testing of changes related to the unit-test collector is currently not possible by referencing the local unit-test-collector plugin - `collector/unit-test-collector`. Therefore, you need to publish the SDK locally to test the changes.
 
 To publish the SDK locally, use the following command: ```./gradlew publishToMavenLocal```. You can check out the published SDK in your machine's .m2 folder.

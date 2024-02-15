@@ -20,23 +20,11 @@ or otherwise on your local machine.
 
 ### Step 3 - Unit Test Collector
 
-In your top-level build.gradle.kts file, add the following to your classpath:
-
-```
-buildScript {
-    ...
-    dependencies {
-        ...
-        classpath("com.buildkite.test-collector-android:unit-test-collector-plugin:0.1.0")
-    }
-}
-```
-
-Then, in your app-level build.gradle.kts, add the following plugin:
+In your app-level build.gradle.kts, add the following plugin:
 
 ```
 plugins {
-    id("com.buildkite.test-collector-android.unit-test-collector-plugin")
+    id("com.buildkite.test-collector-android.unit-test-collector-plugin").version("0.1.0")
 }
 ```
 
@@ -94,7 +82,7 @@ device/emulator has network access.
 
 To enable debugging output, create and set `BUILDKITE_ANALYTICS_DEBUG_ENABLED` environment variable to `true` on your test environment (CI server or local machine).
 
-For instrumented tests debugging, access the variable using `buildConfigField` and pass it through your `MyTestCollector` class. Refer the [sample project](https://github.com/buildkite/test-collector-android/blob/main/sample/) for implementation.
+For instrumented tests debugging, access the variable using `buildConfigField` and pass it through your `MyTestCollector` class. Refer the [example project](https://github.com/buildkite/test-collector-android/blob/main/example/) for implementation.
 
 ## ⚒ Developing
 

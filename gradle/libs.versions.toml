@@ -1,0 +1,37 @@
+[versions]
+androidGradlePlugin = "8.2.2"
+androidxActivityCompose = "1.8.2"
+androidxComposeBom = "2024.02.00"
+androidxComposeCompiler = "1.4.8"
+androidxCore = "1.12.0"
+androidxLifecycle = "2.7.0"
+androidxTestExt = "1.1.5"
+junit = "4.13.2"
+kotlin = "1.8.22"
+okhttp = "5.0.0-alpha.2"
+retrofit = "2.9.0"
+mavenPublish = "0.27.0"
+unitTestCollector = "0.2.0-SNAPSHOT"
+
+[libraries]
+androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "androidxCore" }
+androidx-lifecycle-runtimeKtx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "androidxLifecycle" }
+androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "androidxActivityCompose" }
+androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "androidxComposeBom" }
+androidx-compose-material = { group = "androidx.compose.material", name = "material" }
+androidx-compose-ui = { group = "androidx.compose.ui", name = "ui" }
+androidx-compose-ui-test = { group = "androidx.compose.ui", name = "ui-test-junit4" }
+androidx-compose-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
+androidx-test-ext = { group = "androidx.test.ext", name = "junit", version.ref = "androidxTestExt" }
+okhttp = { group = "com.squareup.okhttp3", name = "okhttp", version.ref = "okhttp" }
+retrofit-core = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
+retrofit-converter-gson = { group = "com.squareup.retrofit2", name = "converter-gson", version.ref = "retrofit" }
+testing-junit = { group = "junit", name = "junit", version.ref = "junit" }
+
+[plugins]
+android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
+android-library = { id = "com.android.library", version.ref = "androidGradlePlugin" }
+kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+maven-publish = { id = "com.vanniktech.maven.publish", version.ref = "mavenPublish" }
+unitTest-collector = { id = "com.buildkite.test-collector-android.unit-test-collector-plugin", version.ref = "unitTestCollector" }

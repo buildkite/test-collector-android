@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+set -xeu
+set -o pipefail
+
+function finish() {
+  printf "\n---Finished Running Example Project Instrumented Tests---\n"
+}
+
+trap finish EXIT
+
+# Run all instrumented tests of the example project
+./gradlew clean :example:connectedCheck

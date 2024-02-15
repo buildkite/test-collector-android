@@ -1,0 +1,60 @@
+name: Test Example Project To Verify Test Collector Integration
+
+# this workflow will always fail since we've added failing tests to verify collector integration with all kinds of possible test results
+
+on:
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  example-project-unit-tests:
+    name: Run Example Project Unit Tests
+    runs-on: ubuntu-latest
+
+    env:
+      BUILDKITE_ANALYTICS_TOKEN: ${{ secrets.BUILDKITE_ANALYTICS_TOKEN }}
+      BUILDKITE_ANALYTICS_DEBUG_ENABLED: ${{ secrets.BUILDKITE_ANALYTICS_DEBUG_ENABLED }}
+
+    steps:
+      - name: Git Checkout
+        uses: actions/checkout@v3
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3.3.0
+        with:
+          distribution: zulu
+          java-version: 17
+
+      - name: Debug Build
+        run: ./gradlew :example:buildDebug
+
+      - name: Example Project Unit Tests
+        run: "support/scripts/example-unit-tests"
+
+  example-project-instrumented-tests:
+    name: Run Example Project Instrumented Tests
+    runs-on: macos-latest
+
+    env:
+      BUILDKITE_ANALYTICS_TOKEN: ${{ secrets.BUILDKITE_ANALYTICS_TOKEN }}
+      BUILDKITE_ANALYTICS_DEBUG_ENABLED: ${{ secrets.BUILDKITE_ANALYTICS_DEBUG_ENABLED }}
+
+    steps:
+      - name: Git Checkout
+        uses: actions/checkout@v3
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3.3.0
+        with:
+          distribution: zulu
+          java-version: 17
+
+      - name: Debug Build
+        run: ./gradlew :example:buildDebug
+
+      - name: Example Project Instrumented Tests
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 27
+          arch: x86_64
+          script: "support/scripts/example-instrumented-tests"

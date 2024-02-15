@@ -1,15 +1,14 @@
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
-    id("com.vanniktech.maven.publish")
+    alias(libs.plugins.maven.publish)
 }
 
 android {
-    compileSdk = 32
+    compileSdk = 34
 
     defaultConfig {
-        minSdk = 23
-        targetSdk = 32
+        minSdk = 16
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -30,18 +29,10 @@ android {
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_1_8.toString()
     }
+    namespace = "com.buildkite.test.collector.android"
 }
 
 dependencies {
-
-    implementation(project(":collector:test-data-uploader"))
-    implementation(Dependencies.AndroidX.coreKtx)
-    implementation(Dependencies.AndroidX.appcompat)
-    implementation(Dependencies.Google.Android.material)
-    api(Dependencies.Testing.jUnit)
-
-    testImplementation(Dependencies.Testing.jUnit)
-
-    androidTestImplementation(Dependencies.AndroidX.Test.junit)
-    androidTestImplementation(Dependencies.AndroidX.Test.espressoCore)
+    implementation(projects.collector.testDataUploader)
+    implementation(libs.testing.junit)
 }
