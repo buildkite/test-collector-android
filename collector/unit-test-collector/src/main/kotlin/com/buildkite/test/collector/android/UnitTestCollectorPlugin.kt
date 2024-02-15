@@ -21,7 +21,7 @@ class UnitTestCollectorPlugin : Plugin<Project> {
                 private val testObserver = TestObserver()
                 private val testUploader = configureUnitTestUploader()
 
-                override fun beforeSuite(suite: TestDescriptor?) {}
+                override fun beforeSuite(suite: TestDescriptor?) { /* Nothing to do */ }
 
                 override fun afterSuite(suite: TestDescriptor?, result: TestResult?) {
                     suite?.let { testSuite ->

@@ -17,7 +17,7 @@ abstract class InstrumentedTestCollector(
     private val testObserver = TestObserver()
     private val testUploader = configureInstrumentedTestUploader(apiToken, isDebugEnabled)
 
-    override fun testSuiteStarted(testDescription: Description?) {}
+    override fun testSuiteStarted(testDescription: Description?) { /* Nothing to do */ }
 
     override fun testSuiteFinished(description: Description?) {
         description?.let { testSuite ->
