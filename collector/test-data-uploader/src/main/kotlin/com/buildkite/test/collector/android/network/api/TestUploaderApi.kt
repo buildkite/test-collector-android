@@ -8,7 +8,7 @@ import retrofit2.http.Body
 import retrofit2.http.Headers
 import retrofit2.http.POST
 
-interface TestUploaderApi {
+internal interface TestUploaderApi {
 
     @POST(TEST_UPLOADER_ENDPOINT)
     @Headers(

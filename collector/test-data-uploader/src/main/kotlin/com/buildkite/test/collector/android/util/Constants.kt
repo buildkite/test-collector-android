@@ -1,7 +1,6 @@
 package com.buildkite.test.collector.android.util
 
-object Constants {
-
+internal object Constants {
     object Collector {
         const val TEST_DATA_UPLOAD_LIMIT = 5000
     }

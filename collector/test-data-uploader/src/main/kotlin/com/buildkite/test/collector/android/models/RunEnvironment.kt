@@ -1,11 +1,11 @@
 package com.buildkite.test.collector.android.models
 
-import com.buildkite.test.collector.android.util.Helpers.generateUUID
+import com.buildkite.test.collector.android.util.Helpers.generateUUIDString
 import com.google.gson.annotations.SerializedName
 
-data class RunEnvironment(
+internal data class RunEnvironment(
     @SerializedName("CI") val ci: String? = null,
-    @SerializedName("key") val key: String = generateUUID(),
+    @SerializedName("key") val key: String = generateUUIDString(),
     @SerializedName("url") val url: String? = null,
     @SerializedName("branch") val branch: String? = null,
     @SerializedName("commit_sha") val commitSha: String? = null,

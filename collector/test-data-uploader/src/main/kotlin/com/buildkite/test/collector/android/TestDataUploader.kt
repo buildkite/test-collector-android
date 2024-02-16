@@ -10,8 +10,8 @@ import com.buildkite.test.collector.android.util.Constants.Collector
 import retrofit2.Response
 
 class TestDataUploader(
-    val testSuiteApiToken: String?,
-    val isDebugEnabled: Boolean
+    private val testSuiteApiToken: String?,
+    private val isDebugEnabled: Boolean
 ) {
     fun configureUploadData(testCollection: List<TestDetails>) {
         val runEnvironment = RunEnvironment().getEnvironmentValues()
