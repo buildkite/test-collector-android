@@ -18,5 +18,9 @@ gradlePlugin {
             id = "buildkite.static-code-analysis"
             implementationClass = "StaticCodeAnalysisConventionPlugin"
         }
+        register("gitHooks") {
+            id = "buildkite.git-hooks"
+            implementationClass = "GitHooksConventionPlugin"
+        }
     }
 }

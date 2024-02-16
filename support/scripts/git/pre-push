@@ -1,8 +1,17 @@
 #!/usr/bin/env bash
 
 echo "Running pre-push lint check..."
+OUTPUT="/tmp/detekt-$(date +%s)"
 
-set -eum
+./support/scripts/lint >"${OUTPUT}"
 
-git diff --name-only HEAD origin/"$(git rev-parse --abbrev-ref HEAD)" | grep '\.kt[s"]\?$' | xargs ktlint --android --relative .
-if [ $? -ne 0 ]; then exit 1; fi
+EXIT_CODE=$?
+if [ $EXIT_CODE -ne 0 ]; then
+  cat "$OUTPUT"
+  rm "$OUTPUT"
+  echo "-----------------------------------------------------"
+  echo "Lint failed. Fix the detekt issue to push the changes"
+  echo "-----------------------------------------------------"
+  exit $EXIT_CODE
+fi
+rm "$OUTPUT"
