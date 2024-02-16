@@ -2,7 +2,7 @@ package com.buildkite.test.collector.android.network.api
 
 import com.buildkite.test.collector.android.models.TestData
 import com.buildkite.test.collector.android.models.TestResponse
-import com.buildkite.test.collector.android.util.Constants.Network.TEST_UPLOADER_ENDPOINT
+import com.buildkite.test.collector.android.util.CollectorUtils.Network.TEST_UPLOADER_ENDPOINT
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.Headers

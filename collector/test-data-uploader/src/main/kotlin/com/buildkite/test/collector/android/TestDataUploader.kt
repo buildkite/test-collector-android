@@ -6,7 +6,7 @@ import com.buildkite.test.collector.android.models.TestDetails
 import com.buildkite.test.collector.android.models.TestResponse
 import com.buildkite.test.collector.android.network.RetrofitInstance
 import com.buildkite.test.collector.android.network.api.TestUploaderApi
-import com.buildkite.test.collector.android.util.Constants.Collector
+import com.buildkite.test.collector.android.util.CollectorUtils.Uploader
 import retrofit2.Response
 
 class TestDataUploader(
@@ -19,7 +19,7 @@ class TestDataUploader(
         val testData = TestData(
             format = "json",
             runEnvironment = runEnvironment,
-            data = testCollection.take(Collector.TEST_DATA_UPLOAD_LIMIT)
+            data = testCollection.take(Uploader.TEST_DATA_UPLOAD_LIMIT)
         )
 
         uploadTestData(testData = testData)
@@ -32,9 +32,9 @@ class TestDataUploader(
                     "Please set up your API token environment variable to upload the analytics data. Follow [README] for further information."
             )
         } else {
-            val retroService = RetrofitInstance.getRetrofitInstance(testSuiteApiToken = testSuiteApiToken)
+            val testUploaderService = RetrofitInstance.getRetrofitInstance(testSuiteApiToken = testSuiteApiToken)
                 .create(TestUploaderApi::class.java)
-            val uploadTestDataApiCall = retroService.uploadTestData(testData = testData)
+            val uploadTestDataApiCall = testUploaderService.uploadTestData(testData = testData)
 
             val executeApiCall = uploadTestDataApiCall.execute()
 

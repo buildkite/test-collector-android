@@ -1,6 +1,6 @@
 package com.buildkite.test.collector.android.models
 
-import com.buildkite.test.collector.android.util.Helpers.generateUUIDString
+import com.buildkite.test.collector.android.util.CollectorUtils.generateUUIDString
 import com.google.gson.annotations.SerializedName
 
 data class TestDetails(

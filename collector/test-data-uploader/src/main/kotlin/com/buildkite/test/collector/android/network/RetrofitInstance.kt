@@ -1,6 +1,6 @@
 package com.buildkite.test.collector.android.network
 
-import com.buildkite.test.collector.android.util.Constants.Network.BASE_URL
+import com.buildkite.test.collector.android.util.CollectorUtils.Network.BASE_URL
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
