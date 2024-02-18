@@ -46,7 +46,7 @@ Therefore we went with the simple but manual approach to update the version ours
 
 ### Lint Checks
 
-To maintain high code quality standards, we encourage to utilise our linting scripts before submitting changes. You can run the following commands locally:
+To maintain high code quality standards, we encourage contributors to utilise our linting scripts before submitting changes. You can run the following commands locally:
 
 To identify linting issues: `.support/scripts/lint`
 For automatic fixes to some common issues: `.support/scripts/lint -F`
