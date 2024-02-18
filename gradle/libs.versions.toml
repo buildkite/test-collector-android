@@ -2,10 +2,12 @@
 androidGradlePlugin = "8.2.2"
 androidxActivityCompose = "1.8.2"
 androidxComposeBom = "2024.02.00"
+androidxComposeUiTest = "1.6.1"
 androidxComposeCompiler = "1.4.8"
 androidxCore = "1.12.0"
 androidxLifecycle = "2.7.0"
 androidxTestExt = "1.1.5"
+detekt = "1.23.1"
 junit = "4.13.2"
 kotlin = "1.8.22"
 okhttp = "5.0.0-alpha.2"
@@ -20,13 +22,17 @@ androidx-activity-compose = { group = "androidx.activity", name = "activity-comp
 androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "androidxComposeBom" }
 androidx-compose-material = { group = "androidx.compose.material", name = "material" }
 androidx-compose-ui = { group = "androidx.compose.ui", name = "ui" }
-androidx-compose-ui-test = { group = "androidx.compose.ui", name = "ui-test-junit4" }
+androidx-compose-ui-test = { group = "androidx.compose.ui", name = "ui-test-junit4", version.ref = "androidxComposeUiTest" }
 androidx-compose-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
 androidx-test-ext = { group = "androidx.test.ext", name = "junit", version.ref = "androidxTestExt" }
+detekt-formatting = { group = "io.gitlab.arturbosch.detekt", name = "detekt-formatting", version.ref = "detekt" }
 okhttp = { group = "com.squareup.okhttp3", name = "okhttp", version.ref = "okhttp" }
 retrofit-core = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
 retrofit-converter-gson = { group = "com.squareup.retrofit2", name = "converter-gson", version.ref = "retrofit" }
 testing-junit = { group = "junit", name = "junit", version.ref = "junit" }
+
+# build-logic module dependencies
+detekt-gradlePlugin = { group = "io.gitlab.arturbosch.detekt", name = "detekt-gradle-plugin", version.ref = "detekt" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }

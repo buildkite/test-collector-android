@@ -149,7 +149,7 @@ the [Buildkite Test Analytics docs](https://buildkite.com/docs/test-analytics).
 
 ## 👩‍💻 Contributing
 
-Please refer the contribution guide [here](CONTRIBUTION.md). 
+Please refer the contribution guide [here](CONTRIBUTING.md). 
 Bug reports and pull requests are welcome on GitHub at https://github.com/buildkite/test-collector-android
 
 ## 📜 License

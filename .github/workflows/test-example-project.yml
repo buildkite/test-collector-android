@@ -4,7 +4,7 @@ name: Test Example Project To Verify Test Collector Integration
 
 on:
   pull_request:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
   example-project-unit-tests:

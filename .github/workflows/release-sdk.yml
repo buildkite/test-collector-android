@@ -2,7 +2,7 @@ name: Release SDK to Maven Central
 
 on:
   release:
-    types: [ published ]
+    types: [published]
 
 jobs:
   publish-sdk:

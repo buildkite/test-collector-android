@@ -2,7 +2,7 @@ package com.buildkite.test.collector.android.models
 
 import com.google.gson.annotations.SerializedName
 
-data class TestResponse(
+internal data class TestResponse(
     @SerializedName("id") val id: String,
     @SerializedName("run_id") val runId: String,
     @SerializedName("queued") val queued: Int,

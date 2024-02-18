@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+if [[ $# -eq 0 ]]; then
+    ./gradlew detektAll
+elif [[ $# -eq 1 && "$1" == "-F" ]]; then
+    ./gradlew detektFormat
+else
+    echo "Error: Invalid argument. Pass '-F' to run formatting."
+    exit 1
+fi
