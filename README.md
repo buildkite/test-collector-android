@@ -24,7 +24,7 @@ In your app-level build.gradle.kts, add the following plugin:
 
 ```
 plugins {
-    id("com.buildkite.test-collector-android.unit-test-collector-plugin").version("0.1.0")
+    id("com.buildkite.test-collector-android.unit-test-collector-plugin").version("0.2.0")
 }
 ```
 
@@ -37,7 +37,7 @@ In your app-level build.gradle.kts file,
 Add the following dependency:
 
 ```
-androidTestImplementation("com.buildkite.test-collector-android:instrumented-test-collector:0.1.0")
+androidTestImplementation("com.buildkite.test-collector-android:instrumented-test-collector:0.2.0")
 ```
 
 ```
