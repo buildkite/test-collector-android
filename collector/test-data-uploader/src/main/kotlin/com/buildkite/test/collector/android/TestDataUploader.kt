@@ -7,6 +7,7 @@ import com.buildkite.test.collector.android.model.TestUploadResponse
 import com.buildkite.test.collector.android.network.TestAnalyticsRetrofit
 import com.buildkite.test.collector.android.network.api.TestUploaderApi
 import com.buildkite.test.collector.android.util.CollectorUtils.Uploader
+import com.buildkite.test.collector.android.util.Logger
 import retrofit2.Response
 
 /**
@@ -20,6 +21,9 @@ class TestDataUploader(
     private val testSuiteApiToken: String?,
     private val isDebugEnabled: Boolean
 ) {
+    private val logger =
+        Logger(minLevel = if (isDebugEnabled) Logger.LogLevel.DEBUG else Logger.LogLevel.INFO)
+
     /**
      * Configures and uploads test data.
      * The number of test data uploaded in a single request is constrained by [Uploader.TEST_DATA_UPLOAD_LIMIT].
@@ -40,33 +44,35 @@ class TestDataUploader(
 
     private fun uploadTestData(testData: TestData) {
         if (testSuiteApiToken == null) {
-            println(
-                "Buildkite test suite API token is missing. " +
-                    "Please set up your API token environment variable to upload the analytics data. Follow [README] for further information."
-            )
-        } else {
+            logger.info {
+                "Test Suite API token is missing. Please ensure the 'BUILDKITE_ANALYTICS_TOKEN' environment variable is set correctly to upload test data."
+            }
+            return
+        }
+
+        try {
+            logger.debug { "Uploading test analytics data." }
+
             val testUploaderService =
                 TestAnalyticsRetrofit.getRetrofitInstance(testSuiteApiToken = testSuiteApiToken)
                     .create(TestUploaderApi::class.java)
             val uploadTestDataApiCall = testUploaderService.uploadTestData(testData = testData)
+            val testUploadResponse = uploadTestDataApiCall.execute()
 
-            val executeApiCall = uploadTestDataApiCall.execute()
-
-            if (isDebugEnabled) {
-                logApiResponse(executeApiCall)
-            }
+            logApiResponse(testUploadResponse = testUploadResponse)
+        } catch (e: Exception) {
+            logger.error { "Error uploading test analytics data: ${e.message}." }
         }
     }
 
-    private fun logApiResponse(executeApiCall: Response<TestUploadResponse>) {
-        when (val apiResponseCode = executeApiCall.raw().code) {
-            202 -> println(
-                "\nTest analytics data successfully uploaded to the BuildKite Test Suite. - ${executeApiCall.body()?.runUrl}"
-            )
-
-            else -> println(
-                "\nError uploading test analytics data to the BuildKite Test Suite. Error code: $apiResponseCode! Ensure that the test suite API Token is correct."
-            )
+    private fun logApiResponse(testUploadResponse: Response<TestUploadResponse>) {
+        if (testUploadResponse.isSuccessful) {
+            logger.debug { "Test analytics data successfully uploaded. URL: ${testUploadResponse.body()?.runUrl}" }
+        } else {
+            logger.error {
+                "Error uploading test analytics data. HTTP error code: ${testUploadResponse.code()}. Ensure the test suite API token is correct and properly configured."
+            }
+            logger.debug { "Failed response details: ${testUploadResponse.errorBody()?.string()}" }
         }
     }
 }
