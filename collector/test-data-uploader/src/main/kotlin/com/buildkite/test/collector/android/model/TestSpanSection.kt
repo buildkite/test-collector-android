@@ -1,8 +1,11 @@
-package com.buildkite.test.collector.android.models
+package com.buildkite.test.collector.android.model
 
 import com.google.gson.annotations.SerializedName
 
-enum class SpanSection {
+/**
+ * Represents [TestSpan] category, classifying the type of operation or activity within a test run.
+ */
+enum class TestSpanSection {
     @SerializedName(value = "top")
     Top,
 

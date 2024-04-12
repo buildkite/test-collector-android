@@ -1,74 +1,80 @@
 package com.buildkite.test.collector.android
 
-import com.buildkite.test.collector.android.models.FailureExpanded
-import com.buildkite.test.collector.android.models.Span
-import com.buildkite.test.collector.android.models.TestDetails
-import com.buildkite.test.collector.android.models.TraceResult
+import com.buildkite.test.collector.android.model.TestDetails
+import com.buildkite.test.collector.android.model.TestFailureExpanded
+import com.buildkite.test.collector.android.model.TestHistory
+import com.buildkite.test.collector.android.model.TestOutcome
 import com.buildkite.test.collector.android.tracer.TestObserver
 import com.buildkite.test.collector.android.tracer.environment.configureInstrumentedTestUploader
 import org.junit.runner.Description
 import org.junit.runner.notification.Failure
 import org.junit.runner.notification.RunListener
 
+/**
+ * Serves as an abstract foundation for creating instrumented test collectors that interface with Buildkite's Test Analytics service.
+ * This class extends JUnit's [RunListener] to capture real-time events during the execution of instrumented tests, enabling precise monitoring
+ * and reporting of test outcomes. It automatically gathers detailed test results and uploads them directly to the analytics portal at the conclusion of test suite.
+ *
+ * @param apiToken The API token for the test suite, necessary for authenticating requests with Test Analytics.
+ * @param isDebugEnabled When true, enables logging to assist with debugging.
+ */
 abstract class InstrumentedTestCollector(
     apiToken: String,
     isDebugEnabled: Boolean = false
 ) : RunListener() {
     private val testObserver = TestObserver()
-    private val testUploader = configureInstrumentedTestUploader(apiToken, isDebugEnabled)
+    private val testUploader = configureInstrumentedTestUploader(
+        apiToken = apiToken,
+        isDebugEnabled = isDebugEnabled
+    )
+    private val testCollection: MutableList<TestDetails> = mutableListOf()
 
-    override fun testSuiteStarted(testDescription: Description?) { /* Nothing to do */ }
+    override fun testSuiteStarted(testDescription: Description) {
+        /* Nothing to do before the test suite has started */
+    }
 
-    override fun testSuiteFinished(description: Description?) {
-        description?.let { testSuite ->
-            if ((testSuite.displayName.isNullOrEmpty() || testSuite.displayName == "null") && (testSuite.className.isNullOrEmpty() || testSuite.className == "null")) {
-                testUploader.configureUploadData(testCollection = testObserver.collection)
-            }
+    override fun testSuiteFinished(description: Description) {
+        if (isFinalTestSuiteCall(testDescription = description)) {
+            testUploader.configureUploadData(testCollection = testCollection)
         }
     }
 
-    override fun testStarted(testDescription: Description?) {
-        testObserver.recordStartTime()
+    override fun testStarted(testDescription: Description) {
+        testObserver.startTest()
     }
 
-    override fun testFinished(testDescription: Description?) {
-        testObserver.recordEndTime()
+    override fun testFinished(testDescription: Description) {
+        testObserver.endTest()
 
-        if (testObserver.result != TraceResult.Failed) {
-            testObserver.result = TraceResult.Passed
+        if (testObserver.outcome != TestOutcome.Failed) {
+            testObserver.recordSuccess()
         }
 
-        testDescription?.let { test ->
-            addTestDetailsToCollection(test = test)
-        }
+        addTestDetailsToCollection(test = testDescription)
     }
 
-    override fun testFailure(failureDetails: Failure?) {
-        failureDetails?.let { failure ->
-            testObserver.result = TraceResult.Failed
-            testObserver.failureReason = failure.exception.toString()
-            testObserver.failureExpanded = listOf(
-                FailureExpanded(
-                    expanded = failure.trimmedTrace.split("\n").map { it.trim() },
-                    backtrace = failure.trace.split("\n").map { it.trim() },
-                )
+    override fun testFailure(failureDetails: Failure) {
+        val failureReason = failureDetails.exception.toString()
+        val details = listOf(
+            TestFailureExpanded(
+                expanded = failureDetails.trimmedTrace.split("\n").map { it.trim() },
+                backtrace = failureDetails.trace.split("\n").map { it.trim() },
             )
-        }
+        )
+        testObserver.recordFailure(reason = failureReason, details = details)
     }
 
-    override fun testIgnored(testDescription: Description?) {
-        testObserver.result = TraceResult.Skipped
+    override fun testIgnored(testDescription: Description) {
+        testObserver.recordSkipped()
 
-        testDescription?.let { test ->
-            addTestDetailsToCollection(test = test)
-        }
+        addTestDetailsToCollection(test = testDescription)
     }
 
     private fun addTestDetailsToCollection(test: Description) {
-        val testSpan = Span(
+        val testHistory = TestHistory(
             startAt = testObserver.startTime,
             endAt = testObserver.endTime,
-            duration = testObserver.calculateSpanDuration(),
+            duration = testObserver.getDuration()
         )
 
         val testDetails = TestDetails(
@@ -76,13 +82,22 @@ abstract class InstrumentedTestCollector(
             name = test.methodName,
             location = test.className,
             fileName = null,
-            result = testObserver.result,
+            result = testObserver.outcome,
             failureReason = testObserver.failureReason,
-            failureExpanded = testObserver.failureExpanded,
-            history = testSpan
+            failureExpanded = testObserver.failureDetails,
+            history = testHistory
         )
 
-        testObserver.collection.add(testDetails)
-        testObserver.resetTestData()
+        testCollection.add(testDetails)
+        testObserver.reset()
     }
+
+    /**
+     * Determines if the provided test suite descriptor indicates the final call of the test suite,
+     * which is true when both displayName and className are null.
+     *
+     * @param testDescription The test description. [Description] can be atomic (a single test) or compound (containing children tests).
+     */
+    private fun isFinalTestSuiteCall(testDescription: Description) =
+        (testDescription.displayName.isNullOrEmpty() || testDescription.displayName == "null") && (testDescription.className.isNullOrEmpty() || testDescription.className == "null")
 }

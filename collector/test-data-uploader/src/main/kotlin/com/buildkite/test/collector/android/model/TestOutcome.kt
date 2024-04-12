@@ -1,8 +1,11 @@
-package com.buildkite.test.collector.android.models
+package com.buildkite.test.collector.android.model
 
 import com.google.gson.annotations.SerializedName
 
-enum class TraceResult {
+/**
+ * Represents the outcome of the test.
+ * */
+enum class TestOutcome {
     @SerializedName("passed")
     Passed,
 
