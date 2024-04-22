@@ -1,5 +1,6 @@
 package com.buildkite.test.collector.android.models
 
+import com.buildkite.test.collector.android.model.RunEnvironment
 import com.google.gson.Gson
 import junit.framework.TestCase.assertEquals
 import org.junit.Test

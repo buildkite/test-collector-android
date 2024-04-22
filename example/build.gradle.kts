@@ -14,12 +14,15 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        // Specifies `ExampleTestCollector` as the instrumented test listener for collecting test analytics.
         testInstrumentationRunnerArguments += mapOf("listener" to "com.buildkite.test.collector.android.example.ExampleTestCollector")
 
         vectorDrawables {
             useSupportLibrary = true
         }
 
+        // Fetches local/CI environment variables for Buildkite test collector setup
         buildConfigField(
             "String",
             "BUILDKITE_ANALYTICS_TOKEN",

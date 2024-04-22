@@ -1,9 +1,8 @@
 package com.buildkite.test.collector.android
 
-import com.buildkite.test.collector.android.models.FailureExpanded
-import com.buildkite.test.collector.android.models.Span
-import com.buildkite.test.collector.android.models.TestDetails
-import com.buildkite.test.collector.android.models.TraceResult
+import com.buildkite.test.collector.android.model.TestDetails
+import com.buildkite.test.collector.android.model.TestFailureExpanded
+import com.buildkite.test.collector.android.model.TestHistory
 import com.buildkite.test.collector.android.tracer.TestObserver
 import com.buildkite.test.collector.android.tracer.environment.configureUnitTestUploader
 import org.gradle.api.Plugin
@@ -13,66 +12,78 @@ import org.gradle.api.tasks.testing.TestDescriptor
 import org.gradle.api.tasks.testing.TestListener
 import org.gradle.api.tasks.testing.TestResult
 
+/**
+ * A Gradle plugin that automates the collection and uploading of unit test results to Buildkite's Test Analytics service.
+ * It attaches a listener [Test] task within Gradle projects, capturing real-time test events and outcomes.
+ * This enables detailed monitoring and systematic reporting of test results, which are uploaded directly to the analytics portal
+ * at the conclusion of test suite.
+ */
 class UnitTestCollectorPlugin : Plugin<Project> {
     override fun apply(project: Project) {
         project.tasks.withType(Test::class.java) { test ->
 
             test.addTestListener(object : TestListener {
-                private val testObserver = TestObserver()
                 private val testUploader = configureUnitTestUploader()
+                private val testObserver = TestObserver()
+                private val testCollection: MutableList<TestDetails> = mutableListOf()
 
-                override fun beforeSuite(suite: TestDescriptor?) { /* Nothing to do */ }
+                override fun beforeSuite(suite: TestDescriptor) {
+                    /* Nothing to do before the test suite has started */
+                }
 
-                override fun afterSuite(suite: TestDescriptor?, result: TestResult?) {
-                    suite?.let { testSuite ->
-                        if (testSuite.className == null && testSuite.parent == null) {
-                            testUploader.configureUploadData(testCollection = testObserver.collection)
-                        }
+                override fun afterSuite(suite: TestDescriptor, result: TestResult) {
+                    if (isFinalTestSuiteCall(testDescription = suite)) {
+                        testUploader.configureUploadData(testCollection = testCollection)
                     }
                 }
 
-                override fun beforeTest(testDescriptor: TestDescriptor?) {
-                    testObserver.recordStartTime()
+                override fun beforeTest(testDescriptor: TestDescriptor) {
+                    testObserver.startTest()
                 }
 
-                override fun afterTest(testDescriptor: TestDescriptor?, result: TestResult?) {
-                    testObserver.recordEndTime()
+                override fun afterTest(testDescriptor: TestDescriptor, result: TestResult) {
+                    testObserver.endTest()
 
-                    when (result?.resultType) {
+                    when (result.resultType) {
                         TestResult.ResultType.SUCCESS -> {
-                            testObserver.result = TraceResult.Passed
+                            testObserver.recordSuccess()
                         }
+
                         TestResult.ResultType.FAILURE -> {
-                            testObserver.result = TraceResult.Failed
-                            testObserver.failureReason = result.exception.toString()
-                            testObserver.failureExpanded = result.exceptions.map { exception ->
-                                FailureExpanded(
+                            val failureReason = result.exception.toString()
+                            val failureDetails = result.exceptions.map { exception ->
+                                TestFailureExpanded(
                                     expanded = listOf("${exception.message}:${exception.cause}"),
                                     backtrace = exception.stackTraceToString().split("\n")
                                         .map { it.trim() }
                                 )
                             }
+                            testObserver.recordFailure(
+                                reason = failureReason,
+                                details = failureDetails
+                            )
                         }
+
                         TestResult.ResultType.SKIPPED -> {
-                            testObserver.endTime = 0
-                            testObserver.startTime = 0
-                            testObserver.result = TraceResult.Skipped
+                            testObserver.recordSkipped()
                         }
+
                         null -> {
-                            testObserver.result = TraceResult.Passed
+                            // Handle the case where [TestResult] is unexpectedly null
+                            testObserver.recordFailure(
+                                reason = "TestResult type was unexpectedly null, indicating an error in the test framework."
+                            )
                         }
                     }
 
-                    testDescriptor?.let { test ->
-                        addTestDetailsToCollection(test = test)
-                    }
+                    addTestDetailsToCollection(test = testDescriptor)
                 }
 
                 private fun addTestDetailsToCollection(test: TestDescriptor) {
-                    val testSpan = Span(
+                    val testHistory = TestHistory(
                         startAt = testObserver.startTime,
                         endAt = testObserver.endTime,
-                        duration = testObserver.calculateSpanDuration(),
+                        duration = testObserver.getDuration()
                     )
 
                     val testDetails = TestDetails(
@@ -80,15 +91,24 @@ class UnitTestCollectorPlugin : Plugin<Project> {
                         name = test.displayName,
                         location = test.className,
                         fileName = null,
-                        result = testObserver.result,
+                        result = testObserver.outcome,
                         failureReason = testObserver.failureReason,
-                        failureExpanded = testObserver.failureExpanded,
-                        history = testSpan
+                        failureExpanded = testObserver.failureDetails,
+                        history = testHistory
                     )
 
-                    testObserver.collection.add(testDetails)
-                    testObserver.resetTestData()
+                    testCollection.add(testDetails)
+                    testObserver.reset()
                 }
+
+                /**
+                 * Determines if the provided test suite descriptor indicates the final call of the test suite,
+                 * which is true when both className and parent are null.
+                 *
+                 * @param testDescription The test description. [TestDescriptor] can be atomic (a single test) or compound (containing children tests).
+                 */
+                private fun isFinalTestSuiteCall(testDescription: TestDescriptor) =
+                    testDescription.className == null && testDescription.parent == null
             })
         }
     }
