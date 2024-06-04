@@ -45,7 +45,7 @@ class TestDataUploader(
     private fun uploadTestData(testData: TestData) {
         if (testSuiteApiToken == null) {
             logger.info {
-                "Test Suite API token is missing. Please ensure the 'BUILDKITE_ANALYTICS_TOKEN' environment variable is set correctly to upload test data."
+                "Incorrect or missing Test Suite API token. Please ensure the 'BUILDKITE_ANALYTICS_TOKEN' environment variable is set correctly to upload test data."
             }
             return
         }
@@ -67,7 +67,7 @@ class TestDataUploader(
 
     private fun logApiResponse(testUploadResponse: Response<TestUploadResponse>) {
         if (testUploadResponse.isSuccessful) {
-            logger.debug { "Test analytics data successfully uploaded. URL: ${testUploadResponse.body()?.runUrl}" }
+            logger.info { "Test analytics data successfully uploaded. URL: ${testUploadResponse.body()?.runUrl}" }
         } else {
             logger.error {
                 "Error uploading test analytics data. HTTP error code: ${testUploadResponse.code()}. Ensure the test suite API token is correct and properly configured."

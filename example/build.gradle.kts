@@ -16,23 +16,15 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
         // Specifies `ExampleTestCollector` as the instrumented test listener for collecting test analytics.
-        testInstrumentationRunnerArguments += mapOf("listener" to "com.buildkite.test.collector.android.example.ExampleTestCollector")
+        testInstrumentationRunnerArguments["listener"] = "com.buildkite.test.collector.android.InstrumentedTestCollector"
+
+        // Passes environment variables as instrumentation arguments
+        testInstrumentationRunnerArguments["BUILDKITE_ANALYTICS_TOKEN"] = System.getenv("BUILDKITE_ANALYTICS_TOKEN") ?: ""
+        testInstrumentationRunnerArguments["BUILDKITE_ANALYTICS_DEBUG_ENABLED"] = System.getenv("BUILDKITE_ANALYTICS_DEBUG_ENABLED") ?: "false"
 
         vectorDrawables {
             useSupportLibrary = true
         }
-
-        // Fetches local/CI environment variables for Buildkite test collector setup
-        buildConfigField(
-            "String",
-            "BUILDKITE_ANALYTICS_TOKEN",
-            "\"${System.getenv("BUILDKITE_ANALYTICS_TOKEN")}\""
-        )
-        buildConfigField(
-            "boolean",
-            "BUILDKITE_ANALYTICS_DEBUG_ENABLED",
-            System.getenv("BUILDKITE_ANALYTICS_DEBUG_ENABLED") ?: "false"
-        )
     }
 
     buildTypes {

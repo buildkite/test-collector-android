@@ -4,7 +4,7 @@ import com.buildkite.test.collector.android.model.TestDetails
 import com.buildkite.test.collector.android.model.TestFailureExpanded
 import com.buildkite.test.collector.android.model.TestHistory
 import com.buildkite.test.collector.android.tracer.TestObserver
-import com.buildkite.test.collector.android.tracer.environment.configureUnitTestUploader
+import com.buildkite.test.collector.android.util.configureUnitTestUploader
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.tasks.testing.Test

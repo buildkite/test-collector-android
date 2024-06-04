@@ -1,11 +1,12 @@
 package com.buildkite.test.collector.android
 
+import androidx.test.platform.app.InstrumentationRegistry
 import com.buildkite.test.collector.android.model.TestDetails
 import com.buildkite.test.collector.android.model.TestFailureExpanded
 import com.buildkite.test.collector.android.model.TestHistory
 import com.buildkite.test.collector.android.model.TestOutcome
 import com.buildkite.test.collector.android.tracer.TestObserver
-import com.buildkite.test.collector.android.tracer.environment.configureInstrumentedTestUploader
+import com.buildkite.test.collector.android.util.configureInstrumentedTestUploader
 import org.junit.runner.Description
 import org.junit.runner.notification.Failure
 import org.junit.runner.notification.RunListener
@@ -14,20 +15,16 @@ import org.junit.runner.notification.RunListener
  * Serves as an abstract foundation for creating instrumented test collectors that interface with Buildkite's Test Analytics service.
  * This class extends JUnit's [RunListener] to capture real-time events during the execution of instrumented tests, enabling precise monitoring
  * and reporting of test outcomes. It automatically gathers detailed test results and uploads them directly to the analytics portal at the conclusion of test suite.
- *
- * @param apiToken The API token for the test suite, necessary for authenticating requests with Test Analytics.
- * @param isDebugEnabled When true, enables logging to assist with debugging.
  */
-abstract class InstrumentedTestCollector(
-    apiToken: String,
-    isDebugEnabled: Boolean = false
-) : RunListener() {
+class InstrumentedTestCollector : RunListener() {
     private val testObserver = TestObserver()
-    private val testUploader = configureInstrumentedTestUploader(
-        apiToken = apiToken,
-        isDebugEnabled = isDebugEnabled
-    )
     private val testCollection: MutableList<TestDetails> = mutableListOf()
+    private val testUploader: TestDataUploader
+
+    init {
+        val arguments = InstrumentationRegistry.getArguments()
+        testUploader = configureInstrumentedTestUploader(instrumentationArguments = arguments)
+    }
 
     override fun testSuiteStarted(testDescription: Description) {
         /* Nothing to do before the test suite has started */
