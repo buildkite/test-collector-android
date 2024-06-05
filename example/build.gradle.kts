@@ -15,7 +15,7 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
-        // Specifies `ExampleTestCollector` as the instrumented test listener for collecting test analytics.
+        // Specifies `InstrumentedTestCollector` as the instrumented test listener for collecting test analytics.
         testInstrumentationRunnerArguments["listener"] = "com.buildkite.test.collector.android.InstrumentedTestCollector"
 
         // Passes environment variables as instrumentation arguments
