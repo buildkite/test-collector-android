@@ -3,7 +3,7 @@ package com.buildkite.test.collector.android
 import com.buildkite.test.collector.android.model.TestDetails
 import com.buildkite.test.collector.android.model.TestFailureExpanded
 import com.buildkite.test.collector.android.model.TestHistory
-import com.buildkite.test.collector.android.tracer.TestObserver
+import com.buildkite.test.collector.android.tracer.BuildkiteTestObserver
 import com.buildkite.test.collector.android.util.configureUnitTestUploader
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -24,7 +24,7 @@ class UnitTestCollectorPlugin : Plugin<Project> {
 
             test.addTestListener(object : TestListener {
                 private val testUploader = configureUnitTestUploader()
-                private val testObserver = TestObserver()
+                private val testObserver = BuildkiteTestObserver()
                 private val testCollection: MutableList<TestDetails> = mutableListOf()
 
                 override fun beforeSuite(suite: TestDescriptor) {
@@ -33,7 +33,7 @@ class UnitTestCollectorPlugin : Plugin<Project> {
 
                 override fun afterSuite(suite: TestDescriptor, result: TestResult) {
                     if (isFinalTestSuiteCall(testDescription = suite)) {
-                        testUploader.configureUploadData(testCollection = testCollection)
+                        testUploader.uploadTestData(testCollection = testCollection)
                     }
                 }
 

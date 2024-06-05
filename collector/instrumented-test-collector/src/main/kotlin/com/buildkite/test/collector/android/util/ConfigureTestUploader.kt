@@ -1,6 +1,7 @@
 package com.buildkite.test.collector.android.util
 
 import android.os.Bundle
+import com.buildkite.test.collector.android.BuildKiteTestDataUploader
 import com.buildkite.test.collector.android.TestDataUploader
 import com.buildkite.test.collector.android.tracer.environment.BuildkiteEnvironmentValues
 
@@ -8,7 +9,7 @@ import com.buildkite.test.collector.android.tracer.environment.BuildkiteEnvironm
  * Creates a [TestDataUploader] instance for instrumented tests.
  */
 fun configureInstrumentedTestUploader(instrumentationArguments: Bundle): TestDataUploader {
-    return TestDataUploader(
+    return BuildKiteTestDataUploader(
         testSuiteApiToken = instrumentationArguments.getStringEnvironmentValue(
             BuildkiteEnvironmentValues.BUILDKITE_ANALYTICS_TOKEN
         ),

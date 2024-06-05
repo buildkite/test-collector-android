@@ -5,7 +5,7 @@ import com.buildkite.test.collector.android.model.TestDetails
 import com.buildkite.test.collector.android.model.TestFailureExpanded
 import com.buildkite.test.collector.android.model.TestHistory
 import com.buildkite.test.collector.android.model.TestOutcome
-import com.buildkite.test.collector.android.tracer.TestObserver
+import com.buildkite.test.collector.android.tracer.BuildkiteTestObserver
 import com.buildkite.test.collector.android.util.configureInstrumentedTestUploader
 import org.junit.runner.Description
 import org.junit.runner.notification.Failure
@@ -17,14 +17,9 @@ import org.junit.runner.notification.RunListener
  * and reporting of test outcomes. It automatically gathers detailed test results and uploads them directly to the analytics portal at the conclusion of test suite.
  */
 class InstrumentedTestCollector : RunListener() {
-    private val testObserver = TestObserver()
+    private val testObserver = BuildkiteTestObserver()
     private val testCollection: MutableList<TestDetails> = mutableListOf()
-    private val testUploader: TestDataUploader
-
-    init {
-        val arguments = InstrumentationRegistry.getArguments()
-        testUploader = configureInstrumentedTestUploader(instrumentationArguments = arguments)
-    }
+    private val testUploader: TestDataUploader by lazy { configureTestUploader() }
 
     override fun testSuiteStarted(testDescription: Description) {
         /* Nothing to do before the test suite has started */
@@ -32,7 +27,7 @@ class InstrumentedTestCollector : RunListener() {
 
     override fun testSuiteFinished(description: Description) {
         if (isFinalTestSuiteCall(testDescription = description)) {
-            testUploader.configureUploadData(testCollection = testCollection)
+            testUploader.uploadTestData(testCollection = testCollection)
         }
     }
 
@@ -97,4 +92,9 @@ class InstrumentedTestCollector : RunListener() {
      */
     private fun isFinalTestSuiteCall(testDescription: Description) =
         (testDescription.displayName.isNullOrEmpty() || testDescription.displayName == "null") && (testDescription.className.isNullOrEmpty() || testDescription.className == "null")
+
+    private fun configureTestUploader(): TestDataUploader {
+        val arguments = InstrumentationRegistry.getArguments()
+        return configureInstrumentedTestUploader(instrumentationArguments = arguments)
+    }
 }
