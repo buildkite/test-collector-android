@@ -18,7 +18,7 @@ import com.google.gson.annotations.SerializedName
  * @property version The current version of the collector.
  * @property collector The current name of the collector.
  */
-internal data class RunEnvironment(
+data class RunEnvironment(
     @SerializedName("CI") val ci: String? = null,
     @SerializedName("key") val key: String = generateUUIDString(),
     @SerializedName("url") val url: String? = null,
@@ -30,34 +30,6 @@ internal data class RunEnvironment(
     @SerializedName("version") val version: String = VERSION_NAME,
     @SerializedName("collector") val collector: String = COLLECTOR_NAME
 ) {
-    fun getEnvironmentValues(): RunEnvironment {
-        val buildKiteRunEnvironment: RunEnvironment? = null
-        val gitHubActionsRunEnvironment: RunEnvironment? = null
-        val circleCiRunEnvironment: RunEnvironment? = null
-        val genericCiRunEnvironment: RunEnvironment? = null
-
-        val localRunEnvironment = RunEnvironment(
-            ci = ci,
-            key = key,
-            url = url,
-            branch = branch,
-            commitSha = commitSha,
-            number = number,
-            jobId = jobId,
-            message = message,
-            version = version,
-            collector = collector
-        )
-
-        val ciRunEnvironment: RunEnvironment? = buildKiteRunEnvironment
-            ?: gitHubActionsRunEnvironment
-            ?: circleCiRunEnvironment
-            ?: genericCiRunEnvironment
-
-        return ciRunEnvironment
-            ?: localRunEnvironment
-    }
-
     companion object {
         // When bumping version, update VERSION_NAME to match new version
         // Used for uploading correct library version

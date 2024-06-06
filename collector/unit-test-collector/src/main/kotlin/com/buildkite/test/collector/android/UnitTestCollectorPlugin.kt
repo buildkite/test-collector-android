@@ -1,7 +1,7 @@
 package com.buildkite.test.collector.android
 
+import com.buildkite.test.collector.android.environment.UnitTestEnvironmentProvider
 import com.buildkite.test.collector.android.tracer.BuildkiteTestObserver
-import com.buildkite.test.collector.android.util.UnitTestCollectorUtils
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.tasks.testing.Test
@@ -16,9 +16,10 @@ class UnitTestCollectorPlugin : Plugin<Project> {
     override fun apply(project: Project) {
         project.tasks.withType(Test::class.java).configureEach { test ->
             val testListener = UnitTestListener(
-                testUploader = UnitTestCollectorUtils.configureTestUploader(),
+                testUploader = BuildKiteTestDataUploader(testEnvironmentProvider = UnitTestEnvironmentProvider()),
                 testObserver = BuildkiteTestObserver()
             )
+
             test.addTestListener(testListener)
         }
     }

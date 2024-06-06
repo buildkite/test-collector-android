@@ -1,3 +1,6 @@
+import com.buildkite.test.collector.android.tracer.environment.TestEnvironmentValue.BUILDKITE_ANALYTICS_DEBUG_ENABLED
+import com.buildkite.test.collector.android.tracer.environment.TestEnvironmentValue.BUILDKITE_ANALYTICS_TOKEN
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
@@ -16,11 +19,14 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
         // Specifies `InstrumentedTestCollector` as the instrumented test listener for collecting test analytics.
-        testInstrumentationRunnerArguments["listener"] = "com.buildkite.test.collector.android.InstrumentedTestCollector"
+        testInstrumentationRunnerArguments["listener"] =
+            "com.buildkite.test.collector.android.InstrumentedTestCollector"
 
         // Passes environment variables as instrumentation arguments
-        testInstrumentationRunnerArguments["BUILDKITE_ANALYTICS_TOKEN"] = System.getenv("BUILDKITE_ANALYTICS_TOKEN") ?: ""
-        testInstrumentationRunnerArguments["BUILDKITE_ANALYTICS_DEBUG_ENABLED"] = System.getenv("BUILDKITE_ANALYTICS_DEBUG_ENABLED") ?: "false"
+        testInstrumentationRunnerArguments[BUILDKITE_ANALYTICS_TOKEN] =
+            getEnv(BUILDKITE_ANALYTICS_TOKEN)
+        testInstrumentationRunnerArguments[BUILDKITE_ANALYTICS_DEBUG_ENABLED] =
+            getEnv(BUILDKITE_ANALYTICS_DEBUG_ENABLED)
 
         vectorDrawables {
             useSupportLibrary = true
@@ -74,3 +80,5 @@ dependencies {
     androidTestImplementation(libs.androidx.test.ext)
     androidTestImplementation(libs.androidx.compose.ui.test)
 }
+
+fun getEnv(key: String): String = System.getenv(key) ?: ""

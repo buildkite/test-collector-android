@@ -1,8 +1,8 @@
 package com.buildkite.test.collector.android
 
 import androidx.test.platform.app.InstrumentationRegistry
+import com.buildkite.test.collector.android.environment.InstrumentedTestEnvironmentProvider
 import com.buildkite.test.collector.android.tracer.BuildkiteTestObserver
-import com.buildkite.test.collector.android.util.InstrumentedTestCollectorUtils
 import org.junit.runner.Description
 import org.junit.runner.notification.Failure
 import org.junit.runner.notification.RunListener
@@ -17,21 +17,35 @@ class InstrumentedTestCollector : RunListener() {
 
     private fun configureTestListener(): InstrumentedTestListener {
         val arguments = InstrumentationRegistry.getArguments()
+        val environmentProvider = InstrumentedTestEnvironmentProvider(arguments = arguments)
+
         return InstrumentedTestListener(
-            testObserver = BuildkiteTestObserver(),
-            testUploader = InstrumentedTestCollectorUtils.configureTestUploader(arguments = arguments)
+            testUploader = BuildKiteTestDataUploader(testEnvironmentProvider = environmentProvider),
+            testObserver = BuildkiteTestObserver()
         )
     }
 
-    override fun testSuiteStarted(description: Description) { listener.testSuiteStarted(description) }
+    override fun testSuiteStarted(description: Description) {
+        listener.testSuiteStarted(description)
+    }
 
-    override fun testSuiteFinished(description: Description) { listener.testSuiteFinished(description) }
+    override fun testSuiteFinished(description: Description) {
+        listener.testSuiteFinished(description)
+    }
 
-    override fun testStarted(description: Description) { listener.testStarted(description) }
+    override fun testStarted(description: Description) {
+        listener.testStarted(description)
+    }
 
-    override fun testFinished(description: Description) { listener.testFinished(description) }
+    override fun testFinished(description: Description) {
+        listener.testFinished(description)
+    }
 
-    override fun testFailure(failure: Failure) { listener.testFailure(failure) }
+    override fun testFailure(failure: Failure) {
+        listener.testFailure(failure)
+    }
 
-    override fun testIgnored(description: Description) { listener.testIgnored(description) }
+    override fun testIgnored(description: Description) {
+        listener.testIgnored(description)
+    }
 }
