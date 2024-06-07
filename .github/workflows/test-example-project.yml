@@ -6,15 +6,24 @@ on:
   pull_request:
     branches: [main]
 
+env:
+  BUILDKITE_ANALYTICS_TOKEN: ${{ secrets.BUILDKITE_ANALYTICS_TOKEN }}
+  BUILDKITE_ANALYTICS_DEBUG_ENABLED: ${{ secrets.BUILDKITE_ANALYTICS_DEBUG_ENABLED }}
+  GITHUB_ACTION: ${{ github.action }}
+  GITHUB_RUN_ID: ${{ github.run_id }}
+  GITHUB_RUN_NUMBER: ${{ github.run_number }}
+  GITHUB_RUN_ATTEMPT: ${{ github.run_attempt }}
+  GITHUB_REPOSITORY: ${{ github.repository }}
+  GITHUB_REF_NAME: ${{ github.ref_name }}
+  GITHUB_SHA: ${{ github.sha }}
+  GITHUB_WORKFLOW: ${{ github.workflow }}
+  GITHUB_ACTOR: ${{ github.actor }}
+
 jobs:
   example-project-unit-tests:
     name: Run Example Project Unit Tests
     runs-on: ubuntu-latest
-
-    env:
-      BUILDKITE_ANALYTICS_TOKEN: ${{ secrets.BUILDKITE_ANALYTICS_TOKEN }}
-      BUILDKITE_ANALYTICS_DEBUG_ENABLED: ${{ secrets.BUILDKITE_ANALYTICS_DEBUG_ENABLED }}
-
+      
     steps:
       - name: Git Checkout
         uses: actions/checkout@v3
@@ -34,10 +43,6 @@ jobs:
   example-project-instrumented-tests:
     name: Run Example Project Instrumented Tests
     runs-on: macos-latest
-
-    env:
-      BUILDKITE_ANALYTICS_TOKEN: ${{ secrets.BUILDKITE_ANALYTICS_TOKEN }}
-      BUILDKITE_ANALYTICS_DEBUG_ENABLED: ${{ secrets.BUILDKITE_ANALYTICS_DEBUG_ENABLED }}
 
     steps:
       - name: Git Checkout
