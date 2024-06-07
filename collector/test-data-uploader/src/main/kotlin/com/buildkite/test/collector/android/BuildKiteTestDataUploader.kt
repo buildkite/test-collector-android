@@ -1,32 +1,31 @@
 package com.buildkite.test.collector.android
 
+import com.buildkite.test.collector.android.model.RunEnvironment
 import com.buildkite.test.collector.android.model.TestData
 import com.buildkite.test.collector.android.model.TestDetails
 import com.buildkite.test.collector.android.model.TestUploadResponse
-import com.buildkite.test.collector.android.network.TestAnalyticsRetrofit
-import com.buildkite.test.collector.android.network.api.TestUploaderApi
-import com.buildkite.test.collector.android.tracer.environment.TestEnvironmentProvider
+import com.buildkite.test.collector.android.network.api.DefaultTestUploaderApiFactory
+import com.buildkite.test.collector.android.network.api.TestUploaderApiFactory
 import com.buildkite.test.collector.android.util.CollectorUtils
-import com.buildkite.test.collector.android.util.Logger
+import com.buildkite.test.collector.android.util.logger.Logger
 import retrofit2.Response
 
 /**
- * Manages the upload of test data to the Buildkite Test Analytics Suite using the provided environment values.
+ * Manages the upload of test data to the Buildkite Test Analytics Suite.
  *
- * This class fetches the necessary environment configuration from a [TestEnvironmentProvider].
- *
- * @property testEnvironmentProvider Provides the environment configuration needed for uploading test data.
+ * @property testSuiteApiToken The API token for authentication.
+ * @property runEnvironment The test run environment configuration.
+ * @property logger The logger for logging messages.
  */
 class BuildKiteTestDataUploader(
-    private val testEnvironmentProvider: TestEnvironmentProvider
+    private val testSuiteApiToken: String,
+    private val runEnvironment: RunEnvironment,
+    private val logger: Logger = Logger()
 ) : TestDataUploader {
-    private val testSuiteApiToken = testEnvironmentProvider.testSuiteApiToken
-
-    private val logger =
-        Logger(minLevel = if (testEnvironmentProvider.isDebugEnabled) Logger.LogLevel.DEBUG else Logger.LogLevel.INFO)
+    private val testUploaderApiFactory: TestUploaderApiFactory = DefaultTestUploaderApiFactory()
 
     init {
-        logger.debug { "BuildKiteTestDataUploader: Test RunEnvironment is: ${testEnvironmentProvider.getRunEnvironment()}" }
+        logger.debug { "TestDataUploader initialized with test analytics API token." }
     }
 
     /**
@@ -36,40 +35,30 @@ class BuildKiteTestDataUploader(
      * @param testCollection A list of [TestDetails] representing all the tests within the suite.
      */
     override fun uploadTestData(testCollection: List<TestDetails>) {
-        val testData = TestData(
-            format = "json",
-            runEnvironment = testEnvironmentProvider.getRunEnvironment(),
-            data = testCollection.take(CollectorUtils.Uploader.TEST_DATA_UPLOAD_LIMIT)
-        )
-
-        uploadTestData(testData = testData)
+        val testData = prepareTestData(testCollection)
+        uploadTestData(testData)
     }
 
-    /**
-     * Performs the actual upload of the provided test data to the Buildkite Test Analytics Suite.
-     *
-     * @param testData The test data to be uploaded.
-     */
+    private fun prepareTestData(testCollection: List<TestDetails>): TestData {
+        return TestData(
+            format = "json",
+            runEnvironment = runEnvironment,
+            data = testCollection.take(CollectorUtils.Uploader.TEST_DATA_UPLOAD_LIMIT)
+        )
+    }
+
     private fun uploadTestData(testData: TestData) {
-        if (testSuiteApiToken == null) {
-            logger.info {
-                "Incorrect or missing Test Suite API token. Please ensure the 'BUILDKITE_ANALYTICS_TOKEN' environment variable is set correctly to upload test data."
-            }
-            return
-        }
+        logger.debug { "Uploading test analytics data." }
 
-        try {
-            logger.debug { "Uploading test analytics data." }
+        runCatching {
+            val testUploaderApi = testUploaderApiFactory.create(testSuiteApiToken)
+            val uploadTestDataApiCall = testUploaderApi.uploadTestData(testData = testData)
 
-            val testUploaderService =
-                TestAnalyticsRetrofit.getRetrofitInstance(testSuiteApiToken = testSuiteApiToken)
-                    .create(TestUploaderApi::class.java)
-            val uploadTestDataApiCall = testUploaderService.uploadTestData(testData = testData)
-            val testUploadResponse = uploadTestDataApiCall.execute()
-
+            uploadTestDataApiCall.execute()
+        }.onSuccess { testUploadResponse ->
             logApiResponse(testUploadResponse = testUploadResponse)
-        } catch (e: Exception) {
-            logger.error { "Error uploading test analytics data: ${e.message}." }
+        }.onFailure { throwable ->
+            logger.error { "Error uploading test analytics data: ${throwable.message}." }
         }
     }
 
@@ -80,7 +69,7 @@ class BuildKiteTestDataUploader(
             logger.error {
                 "Error uploading test analytics data. HTTP error code: ${testUploadResponse.code()}. Ensure the test suite API token is correct and properly configured."
             }
-            logger.error { "Failed response details: ${testUploadResponse.errorBody()?.string()}" }
+            logger.error { "Error response details: ${testUploadResponse.errorBody()?.string()}" }
         }
     }
 }

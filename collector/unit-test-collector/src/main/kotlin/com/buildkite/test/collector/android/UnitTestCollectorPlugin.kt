@@ -2,6 +2,7 @@ package com.buildkite.test.collector.android
 
 import com.buildkite.test.collector.android.environment.UnitTestEnvironmentProvider
 import com.buildkite.test.collector.android.tracer.BuildkiteTestObserver
+import com.buildkite.test.collector.android.util.logger.LoggerFactory
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.tasks.testing.Test
@@ -15,8 +16,27 @@ import org.gradle.api.tasks.testing.Test
 class UnitTestCollectorPlugin : Plugin<Project> {
     override fun apply(project: Project) {
         project.tasks.withType(Test::class.java).configureEach { test ->
+            val testEnvironmentProvider = UnitTestEnvironmentProvider()
+            val testSuiteApiToken = testEnvironmentProvider.testSuiteApiToken
+            val logger = LoggerFactory.create(
+                isDebugEnabled = testEnvironmentProvider.isDebugEnabled,
+                tag = "Buildkite-UnitTestCollector"
+            )
+
+            if (testSuiteApiToken == null) {
+                logger.error {
+                    "Missing or invalid 'BUILDKITE_ANALYTICS_TOKEN'. " +
+                        "Unit test analytics data will not be collected and uploaded. Please set the environment variable to enable analytics."
+                }
+                return@configureEach
+            }
+
             val testListener = UnitTestListener(
-                testUploader = BuildKiteTestDataUploader(testEnvironmentProvider = UnitTestEnvironmentProvider()),
+                testUploader = BuildKiteTestDataUploader(
+                    testSuiteApiToken = testSuiteApiToken,
+                    runEnvironment = testEnvironmentProvider.getRunEnvironment(),
+                    logger = logger
+                ),
                 testObserver = BuildkiteTestObserver()
             )
 
