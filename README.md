@@ -57,6 +57,13 @@ android {
 
 Note: This test collector uploads test data via the device under test. Make sure your Android device/emulator has network access.
 
+### Step 5 (Optional) - Passing CI Environment Variables
+
+The only required environment variable is the analytics token, but if you're using one of the supported CI platforms, 
+you can pass extra information to the test-collector to enrich the reports. These include commit messages, branch names, build numbers, etc.
+
+For detailed instructions on setting up environment variables for different CI platforms, see the [CI Environment Variables Setup](CI_CONFIGURATION.md) document.
+
 ## 🔍 Debugging
 
 To enable debugging output, create and set `BUILDKITE_ANALYTICS_DEBUG_ENABLED` environment variable to `true` on your test environment (CI server or local machine).
