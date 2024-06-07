@@ -26,6 +26,11 @@ class BuildKiteTestDataUploader(
 
     init {
         logger.debug { "TestDataUploader initialized with test analytics API token." }
+        if (runEnvironment.ci != null) {
+            logger.debug { "CI system detected: ${runEnvironment.ci}" }
+        } else {
+            logger.debug { "No CI system detected." }
+        }
     }
 
     /**
