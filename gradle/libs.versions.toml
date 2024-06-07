@@ -8,13 +8,13 @@ androidxCore = "1.12.0"
 androidxLifecycle = "2.7.0"
 androidxTestExt = "1.1.5"
 detekt = "1.23.1"
-instrumentedTestCollector = "0.2.0-SNAPSHOT"
 junit = "4.13.2"
 kotlin = "1.8.22"
 okhttp = "5.0.0-alpha.12"
 retrofit = "2.9.0"
 mavenPublish = "0.27.0"
-buildkiteTestCollector = "0.2.0-SNAPSHOT"
+buildkiteTestCollector = "0.3.0-SNAPSHOT"
+monitor = "1.6.1"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "androidxCore" }
@@ -35,6 +35,7 @@ testing-junit = { group = "junit", name = "junit", version.ref = "junit" }
 
 # build-logic module dependencies
 detekt-gradlePlugin = { group = "io.gitlab.arturbosch.detekt", name = "detekt-gradle-plugin", version.ref = "detekt" }
+androidx-monitor = { group = "androidx.test", name = "monitor", version.ref = "monitor" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }

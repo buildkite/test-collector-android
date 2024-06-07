@@ -35,4 +35,5 @@ android {
 dependencies {
     implementation(projects.collector.testDataUploader)
     implementation(libs.testing.junit)
+    implementation(libs.androidx.monitor)
 }

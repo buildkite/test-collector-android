@@ -1,4 +1,4 @@
-package com.buildkite.test.collector.android.util
+package com.buildkite.test.collector.android.util.logger
 
 /**
  * Provides logging functionality with configurable log level sensitivity.
@@ -6,6 +6,7 @@ package com.buildkite.test.collector.android.util
  * @property minLevel The minimum log level that will be logged.
  */
 class Logger(
+    private val tag: String = "BuildkiteLogger",
     private val minLevel: LogLevel = LogLevel.INFO
 ) {
     /**
@@ -33,7 +34,7 @@ class Logger(
     private fun log(level: LogLevel, message: () -> String) {
         if (level >= minLevel) {
             val output = if (level == LogLevel.ERROR) System.err else System.out
-            output.println("\nBuildkiteTestCollector-${level.name}: ${message()}")
+            output.println("\n$tag-${level.name}: ${message()}")
         }
     }
 

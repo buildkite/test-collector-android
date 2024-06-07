@@ -6,21 +6,30 @@ on:
   pull_request:
     branches: [main]
 
+env:
+  BUILDKITE_ANALYTICS_TOKEN: ${{ secrets.BUILDKITE_ANALYTICS_TOKEN }}
+  BUILDKITE_ANALYTICS_DEBUG_ENABLED: ${{ secrets.BUILDKITE_ANALYTICS_DEBUG_ENABLED }}
+  GITHUB_ACTION: ${{ github.action }}
+  GITHUB_RUN_ID: ${{ github.run_id }}
+  GITHUB_RUN_NUMBER: ${{ github.run_number }}
+  GITHUB_RUN_ATTEMPT: ${{ github.run_attempt }}
+  GITHUB_REPOSITORY: ${{ github.repository }}
+  GITHUB_REF_NAME: ${{ github.ref_name }}
+  GITHUB_SHA: ${{ github.sha }}
+  GITHUB_WORKFLOW: ${{ github.workflow }}
+  GITHUB_ACTOR: ${{ github.actor }}
+
 jobs:
   example-project-unit-tests:
     name: Run Example Project Unit Tests
     runs-on: ubuntu-latest
 
-    env:
-      BUILDKITE_ANALYTICS_TOKEN: ${{ secrets.BUILDKITE_ANALYTICS_TOKEN }}
-      BUILDKITE_ANALYTICS_DEBUG_ENABLED: ${{ secrets.BUILDKITE_ANALYTICS_DEBUG_ENABLED }}
-
     steps:
       - name: Git Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Set up JDK 17
-        uses: actions/setup-java@v3.3.0
+        uses: actions/setup-java@v4
         with:
           distribution: zulu
           java-version: 17
@@ -33,28 +42,39 @@ jobs:
 
   example-project-instrumented-tests:
     name: Run Example Project Instrumented Tests
-    runs-on: macos-latest
-
-    env:
-      BUILDKITE_ANALYTICS_TOKEN: ${{ secrets.BUILDKITE_ANALYTICS_TOKEN }}
-      BUILDKITE_ANALYTICS_DEBUG_ENABLED: ${{ secrets.BUILDKITE_ANALYTICS_DEBUG_ENABLED }}
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        api-level: [28]
+    timeout-minutes: 90
 
     steps:
+      - name: "Enable KVM group perms"
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
+          ls /dev/kvm
+
       - name: Git Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Set up JDK 17
-        uses: actions/setup-java@v3.3.0
+        uses: actions/setup-java@v4
         with:
           distribution: zulu
           java-version: 17
 
-      - name: Debug Build
-        run: ./gradlew :example:buildDebug
-
-      - name: Example Project Instrumented Tests
-        uses: reactivecircus/android-emulator-runner@v2
+      - name: "Run instrumented tests"
+        uses: reactivecircus/android-emulator-runner@v2.27.0
         with:
-          api-level: 27
+          api-level: ${{ matrix.api-level }}
+          force-avd-creation: false
+          emulator-options: -no-snapshot-save -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -timezone Australia/Melbourne -camera-back none
+          disable-animations: true
+          disable-spellchecker: true
+          profile: Nexus 6
           arch: x86_64
+          ram-size: 4096M
+          heap-size: 512M
           script: "support/scripts/example-instrumented-tests"

@@ -2,76 +2,73 @@ package com.buildkite.test.collector.android.tracer
 
 import com.buildkite.test.collector.android.model.TestFailureExpanded
 import com.buildkite.test.collector.android.model.TestOutcome
-import kotlin.math.max
 
 /**
  * Observes and records details for an individual test, including timing, outcome, and failure details.
+ * The start and end times are recorded in nanoseconds.
  */
-class TestObserver {
-    var startTime: Long = 0
-        private set
-    var endTime: Long = 0
-        private set
-    var outcome: TestOutcome = TestOutcome.Unknown
-        private set
-    var failureReason: String? = null
-        private set
-    var failureDetails: List<TestFailureExpanded>? = null
-        private set
+interface TestObserver {
+    /**
+     * The start time of the test in nanoseconds.
+     */
+    val startTime: Long
+
+    /**
+     * The end time of the test in nanoseconds.
+     */
+    val endTime: Long
+
+    /**
+     * The outcome of the test.
+     */
+    val outcome: TestOutcome
+
+    /**
+     * The reason for test failure, if any.
+     */
+    val failureReason: String?
+
+    /**
+     * Detailed information about test failures.
+     */
+    val failureDetails: List<TestFailureExpanded>?
 
     /**
      * Records the start time of a test in nanoseconds.
      */
-    fun startTest() {
-        startTime = System.nanoTime()
-    }
+    fun startTest()
 
     /**
      * Records the end time of a test in nanoseconds.
      */
-    fun endTest() {
-        endTime = System.nanoTime()
-    }
+    fun endTest()
 
     /**
      * Returns the duration of the test in seconds, ensuring a non-negative result.
+     * The duration is calculated from the recorded start and end times.
      */
-    fun getDuration(): Double = max(0.0, (endTime - startTime) / 1_000_000_000.0)
+    fun getDuration(): Double
 
     /**
      * Marks the test as successfully passed.
      */
-    fun recordSuccess() {
-        outcome = TestOutcome.Passed
-    }
+    fun recordSuccess()
 
     /**
      * Records a test failure with a reason and detailed explanation.
+     *
+     * @param reason The reason for the test failure.
+     * @param details Detailed information about the failure.
      */
-    fun recordFailure(
-        reason: String,
-        details: List<TestFailureExpanded> = emptyList()
-    ) {
-        outcome = TestOutcome.Failed
-        failureReason = reason
-        failureDetails = details
-    }
+    fun recordFailure(reason: String, details: List<TestFailureExpanded> = emptyList())
 
     /**
      * Marks the test as skipped.
      */
-    fun recordSkipped() {
-        outcome = TestOutcome.Skipped
-    }
+    fun recordSkipped()
 
     /**
      * Resets all test data to initial state.
      */
-    fun reset() {
-        startTime = 0
-        endTime = 0
-        outcome = TestOutcome.Unknown
-        failureReason = null
-        failureDetails = null
-    }
+    fun reset()
 }
