@@ -40,6 +40,8 @@ Add the following dependency:
 androidTestImplementation("com.buildkite.test-collector-android:instrumented-test-collector:0.2.0")
 ```
 
+Again, in your app-level build.gradle.kts file, instruct Gradle to use your test collector and pass analytics token argument:
+
 ```
 android {
     ...
@@ -47,36 +49,20 @@ android {
     defaultConfig {
         ...
         
-        buildConfigField(
-            "String", 
-            "BUILDKITE_ANALYTICS_TOKEN", 
-            "\"${System.getenv("BUILDKITE_ANALYTICS_TOKEN")}\""
-        )
+        testInstrumentationRunnerArguments["listener"] = "com.buildkite.test.collector.android.InstrumentedTestCollector"
+        testInstrumentationRunnerArguments["BUILDKITE_ANALYTICS_TOKEN"] = System.getenv("BUILDKITE_ANALYTICS_TOKEN")
     }
 }    
 ```
 
-Sync gradle, and rebuild the project to ensure the `BuildConfig` is generated.
+Note: This test collector uploads test data via the device under test. Make sure your Android device/emulator has network access.
 
-Create the following class in your `androidTest` directory,
-i.e. `src/androidTest/java/com/myapp/MyTestCollector.kt`
+### Step 5 (Optional) - Passing CI Environment Variables
 
-```
-class MyTestCollector : InstrumentedTestCollector(
-    apiToken = BuildConfig.BUILDKITE_ANALYTICS_TOKEN
-)
-```
+The only required environment variable is the analytics token, but if you're using one of the supported CI platforms, 
+you can pass extra information to the test-collector to enrich the reports. These include commit messages, branch names, build numbers, etc.
 
-Again, in your app-level build.gradle.kts file, instruct Gradle to use your test collector:
-
-```
-testInstrumentationRunnerArguments += mapOf(
-    "listener" to "com.mycompany.myapp.MyTestCollector" // Make sure to use the correct package name here
-)
-```
-
-Note: This test collector uploads test data via the device under test. Make sure your Android
-device/emulator has network access.
+For detailed instructions on setting up environment variables for different CI platforms, see the [CI Environment Variables Setup](CI_CONFIGURATION.md) document.
 
 ## 🔍 Debugging
 
