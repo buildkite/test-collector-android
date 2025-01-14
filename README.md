@@ -24,7 +24,7 @@ In your app-level build.gradle.kts, add the following plugin:
 
 ```
 plugins {
-    id("com.buildkite.test-collector-android.unit-test-collector-plugin").version("0.2.0")
+    id("com.buildkite.test-collector-android.unit-test-collector-plugin").version("0.3.0")
 }
 ```
 
@@ -37,7 +37,7 @@ In your app-level build.gradle.kts file,
 Add the following dependency:
 
 ```
-androidTestImplementation("com.buildkite.test-collector-android:instrumented-test-collector:0.2.0")
+androidTestImplementation("com.buildkite.test-collector-android:instrumented-test-collector:0.3.0")
 ```
 
 Again, in your app-level build.gradle.kts file, instruct Gradle to use your test collector and pass analytics token argument:
