@@ -15,6 +15,7 @@ import com.google.gson.annotations.SerializedName
  * @property result The outcome of the test, specified as a [TestOutcome].
  * @property failureReason A short description of the failure.
  * @property failureExpanded Detailed failure information as a list of [TestFailureExpanded] objects.
+ * @property tags Optional execution-level tags (key-value pairs) for this test.
  * @property history The span information capturing the duration and execution details of the test.
  */
 data class TestDetails(
@@ -26,5 +27,6 @@ data class TestDetails(
     @SerializedName("result") val result: TestOutcome?,
     @SerializedName("failure_reason") val failureReason: String?,
     @SerializedName("failure_expanded") val failureExpanded: List<TestFailureExpanded>? = null,
+    @SerializedName("tags") val tags: Map<String, String>? = null,
     @SerializedName("history") val history: TestHistory
 )

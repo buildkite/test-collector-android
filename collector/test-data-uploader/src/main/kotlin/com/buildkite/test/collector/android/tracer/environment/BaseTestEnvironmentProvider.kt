@@ -1,7 +1,11 @@
 package com.buildkite.test.collector.android.tracer.environment
 
 import com.buildkite.test.collector.android.model.RunEnvironment
+import com.buildkite.test.collector.android.util.TagValidator
 import com.buildkite.test.collector.android.util.takeIfValid
+import com.google.gson.Gson
+import com.google.gson.JsonSyntaxException
+import com.google.gson.reflect.TypeToken
 
 /**
  * Base implementation of [TestEnvironmentProvider], providing methods to fetch environment values from various sources
@@ -18,6 +22,20 @@ abstract class BaseTestEnvironmentProvider : TestEnvironmentProvider {
 
     final override val isDebugEnabled: Boolean
         get() = safeEnvValue(key = TestEnvironmentValue.BUILDKITE_ANALYTICS_DEBUG_ENABLED).toBoolean()
+
+    final override val uploadTags: Map<String, String>
+        get() {
+            val json = getEnvironmentValue(TestEnvironmentValue.BUILDKITE_ANALYTICS_TAGS)
+                ?.takeIf { it.isNotBlank() }
+                ?: return emptyMap()
+            return try {
+                val type = object : TypeToken<Map<String, String>>() {}.type
+                val parsed: Map<String, String> = Gson().fromJson(json, type) ?: emptyMap()
+                TagValidator.validate(parsed)
+            } catch (_: JsonSyntaxException) {
+                emptyMap()
+            }
+        }
 
     final override fun getRunEnvironment(defaultKey: String): RunEnvironment =
         getGitHubActionsEnvironment()

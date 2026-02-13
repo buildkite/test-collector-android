@@ -3,6 +3,7 @@ package com.buildkite.test.collector.android
 import androidx.test.platform.app.InstrumentationRegistry
 import com.buildkite.test.collector.android.environment.InstrumentedTestEnvironmentProvider
 import com.buildkite.test.collector.android.tracer.BuildkiteTestObserver
+import com.buildkite.test.collector.android.util.TagValidator
 import com.buildkite.test.collector.android.util.logger.LoggerFactory
 import org.junit.runner.Description
 import org.junit.runner.notification.Failure
@@ -33,10 +34,15 @@ class InstrumentedTestCollector : RunListener() {
             return null
         }
 
+        val uploadTags = TagValidator.validate(
+            TagValidator.merge(BuildkiteTestCollector.getProgrammaticUploadTags(), testEnvironmentProvider.uploadTags)
+        )
+
         return InstrumentedTestListener(
             testUploader = BuildKiteTestDataUploader(
                 testSuiteApiToken = testSuiteApiToken,
                 runEnvironment = testEnvironmentProvider.getRunEnvironment(),
+                uploadTags = uploadTags,
                 logger = logger
             ),
             testObserver = BuildkiteTestObserver()
