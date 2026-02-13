@@ -2,6 +2,7 @@ package com.buildkite.test.collector.android
 
 import com.buildkite.test.collector.android.environment.UnitTestEnvironmentProvider
 import com.buildkite.test.collector.android.tracer.BuildkiteTestObserver
+import com.buildkite.test.collector.android.util.TagValidator
 import com.buildkite.test.collector.android.util.logger.LoggerFactory
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -15,6 +16,9 @@ import org.gradle.api.tasks.testing.Test
  */
 class UnitTestCollectorPlugin : Plugin<Project> {
     override fun apply(project: Project) {
+        val extension = project.extensions.findByType(UnitTestCollectorExtension::class.java)
+            ?: project.extensions.create("buildkiteTestAnalytics", UnitTestCollectorExtension::class.java)
+
         project.tasks.withType(Test::class.java).configureEach { test ->
             val testEnvironmentProvider = UnitTestEnvironmentProvider()
             val testSuiteApiToken = testEnvironmentProvider.testSuiteApiToken
@@ -31,10 +35,15 @@ class UnitTestCollectorPlugin : Plugin<Project> {
                 return@configureEach
             }
 
+            val uploadTags = TagValidator.validate(
+                TagValidator.merge(extension.tags, testEnvironmentProvider.uploadTags)
+            )
+
             val testListener = UnitTestListener(
                 testUploader = BuildKiteTestDataUploader(
                     testSuiteApiToken = testSuiteApiToken,
                     runEnvironment = testEnvironmentProvider.getRunEnvironment(),
+                    uploadTags = uploadTags,
                     logger = logger
                 ),
                 testObserver = BuildkiteTestObserver()

@@ -2,6 +2,7 @@ package com.buildkite.test.collector.android.tracer
 
 import com.buildkite.test.collector.android.model.TestFailureExpanded
 import com.buildkite.test.collector.android.model.TestOutcome
+import com.buildkite.test.collector.android.util.TagValidator
 import kotlin.math.max
 
 /**
@@ -19,6 +20,15 @@ class BuildkiteTestObserver : TestObserver {
         private set
     override var failureDetails: List<TestFailureExpanded>? = null
         private set
+
+    private val _executionTags: MutableMap<String, String> = linkedMapOf()
+    override val executionTags: Map<String, String> get() = _executionTags
+
+    override fun setExecutionTag(key: String, value: String) {
+        if (!TagValidator.validateKey(key) || !TagValidator.validateValue(value)) return
+        if (_executionTags.size >= TagValidator.MAX_TAGS && key !in _executionTags) return
+        _executionTags[key] = value
+    }
 
     override fun startTest() {
         startTime = System.nanoTime()
@@ -53,5 +63,6 @@ class BuildkiteTestObserver : TestObserver {
         outcome = TestOutcome.Unknown
         failureReason = null
         failureDetails = null
+        _executionTags.clear()
     }
 }

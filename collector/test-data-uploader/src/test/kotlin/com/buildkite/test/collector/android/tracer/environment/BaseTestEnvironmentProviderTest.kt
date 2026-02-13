@@ -404,6 +404,56 @@ class BaseTestEnvironmentProviderTest {
         assertNull(environment.number)
         assertNull(environment.message)
     }
+
+    @Test
+    fun testUploadTagsWithValidJson() {
+        val environment = mapOf(
+            TestEnvironmentValue.BUILDKITE_ANALYTICS_TAGS to """{"environment":"production","language.name":"kotlin"}"""
+        )
+        val testProvider = MockTestEnvironmentProvider(environment = environment)
+
+        val tags = testProvider.uploadTags
+        assertEquals(2, tags.size)
+        assertEquals("production", tags["environment"])
+        assertEquals("kotlin", tags["language.name"])
+    }
+
+    @Test
+    fun testUploadTagsWithInvalidJson() {
+        val environment = mapOf(
+            TestEnvironmentValue.BUILDKITE_ANALYTICS_TAGS to "not valid json"
+        )
+        val testProvider = MockTestEnvironmentProvider(environment = environment)
+
+        assertTrue(testProvider.uploadTags.isEmpty())
+    }
+
+    @Test
+    fun testUploadTagsWithMissingEnvVar() {
+        val testProvider = MockTestEnvironmentProvider(environment = emptyMap())
+
+        assertTrue(testProvider.uploadTags.isEmpty())
+    }
+
+    @Test
+    fun testUploadTagsWithBlankValue() {
+        val environment = mapOf(
+            TestEnvironmentValue.BUILDKITE_ANALYTICS_TAGS to "   "
+        )
+        val testProvider = MockTestEnvironmentProvider(environment = environment)
+
+        assertTrue(testProvider.uploadTags.isEmpty())
+    }
+
+    @Test
+    fun testUploadTagsWithEmptyJsonObject() {
+        val environment = mapOf(
+            TestEnvironmentValue.BUILDKITE_ANALYTICS_TAGS to "{}"
+        )
+        val testProvider = MockTestEnvironmentProvider(environment = environment)
+
+        assertTrue(testProvider.uploadTags.isEmpty())
+    }
 }
 
 private const val testDefaultKey = "test-default-run-key"
