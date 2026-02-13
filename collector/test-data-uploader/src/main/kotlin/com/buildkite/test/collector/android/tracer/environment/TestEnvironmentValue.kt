@@ -9,6 +9,7 @@ package com.buildkite.test.collector.android.tracer.environment
 object TestEnvironmentValue {
     const val BUILDKITE_ANALYTICS_TOKEN = "BUILDKITE_ANALYTICS_TOKEN"
     const val BUILDKITE_ANALYTICS_DEBUG_ENABLED = "BUILDKITE_ANALYTICS_DEBUG_ENABLED"
+    const val BUILDKITE_ANALYTICS_TAGS = "BUILDKITE_ANALYTICS_TAGS"
 
     const val BUILDKITE_BRANCH = "BUILDKITE_BRANCH"
     const val BUILDKITE_BUILD_ID = "BUILDKITE_BUILD_ID"

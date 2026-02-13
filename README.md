@@ -64,6 +64,74 @@ you can pass extra information to the test-collector to enrich the reports. Thes
 
 For detailed instructions on setting up environment variables for different CI platforms, see the [CI Environment Variables Setup](CI_CONFIGURATION.md) document.
 
+## 🏷 Tags
+
+[Tags](https://buildkite.com/docs/test-engine/test-suites/tags) are key-value pairs that add dimensions to your test execution metadata, allowing you to filter, aggregate, and compare results in Test Engine.
+
+### Upload-level tags
+
+Upload-level tags apply to **all** test executions in an upload. You can set them via an environment variable or programmatically.
+
+#### Environment variable
+
+Set `BUILDKITE_ANALYTICS_TAGS` to a JSON object:
+
+```bash
+export BUILDKITE_ANALYTICS_TAGS='{"environment":"production","language.name":"kotlin"}'
+```
+
+For instrumented tests, pass it through `testInstrumentationRunnerArguments`:
+
+```kotlin
+testInstrumentationRunnerArguments["BUILDKITE_ANALYTICS_TAGS"] = System.getenv("BUILDKITE_ANALYTICS_TAGS")
+```
+
+#### Gradle DSL (unit tests)
+
+In your `build.gradle.kts`:
+
+```kotlin
+buildkiteTestAnalytics {
+    tags["environment"] = "production"
+    tags["language.name"] = "kotlin"
+}
+```
+
+#### Programmatic API (instrumented tests)
+
+Before tests run (e.g., in a custom `Application` or test setup):
+
+```kotlin
+BuildkiteTestCollector.configure(
+    uploadTags = mapOf("environment" to "production", "language.name" to "kotlin")
+)
+```
+
+When both programmatic and environment variable tags are provided, the environment variable values take precedence on key collision.
+
+### Execution-level tags (instrumented tests)
+
+Tag individual test executions during the test:
+
+```kotlin
+import com.buildkite.test.collector.android.BuildkiteExecutionTags
+
+@Test
+fun checkoutFlowWorks() {
+    BuildkiteExecutionTags.tagExecution("feature", "checkout")
+    BuildkiteExecutionTags.tagExecution("user_type", "premium")
+    // ... test code
+}
+```
+
+### Tag constraints
+
+- Up to 10 tags per upload and 10 per execution
+- Keys must start with a letter, contain only letters, numbers, underscores, hyphens, and periods, and be less than 64 bytes
+- Values must not be blank and be less than 128 bytes
+
+For more information, see the [Tags documentation](https://buildkite.com/docs/test-engine/test-suites/tags).
+
 ## 🔍 Debugging
 
 To enable debugging output, create and set `BUILDKITE_ANALYTICS_DEBUG_ENABLED` environment variable to `true` on your test environment (CI server or local machine).

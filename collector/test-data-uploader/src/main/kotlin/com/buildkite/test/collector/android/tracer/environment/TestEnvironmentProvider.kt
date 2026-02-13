@@ -18,6 +18,11 @@ interface TestEnvironmentProvider {
     val isDebugEnabled: Boolean
 
     /**
+     * Upload-level tags parsed from the BUILDKITE_ANALYTICS_TAGS environment variable.
+     */
+    val uploadTags: Map<String, String>
+
+    /**
      * Retrieves the runtime environment details, such as CI system information or local development defaults.
      *
      * @param defaultKey A default key to use if no CI environment is detected.
