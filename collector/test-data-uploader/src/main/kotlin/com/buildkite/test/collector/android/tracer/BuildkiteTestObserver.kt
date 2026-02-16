@@ -20,6 +20,13 @@ class BuildkiteTestObserver : TestObserver {
     override var failureDetails: List<TestFailureExpanded>? = null
         private set
 
+    private val _executionTags: MutableMap<String, String> = linkedMapOf()
+    override val executionTags: Map<String, String> get() = _executionTags
+
+    override fun setExecutionTag(key: String, value: String) {
+        _executionTags[key] = value
+    }
+
     override fun startTest() {
         startTime = System.nanoTime()
     }
@@ -53,5 +60,6 @@ class BuildkiteTestObserver : TestObserver {
         outcome = TestOutcome.Unknown
         failureReason = null
         failureDetails = null
+        _executionTags.clear()
     }
 }

@@ -33,10 +33,13 @@ class InstrumentedTestCollector : RunListener() {
             return null
         }
 
+        val uploadTags = BuildkiteTestCollector.getProgrammaticUploadTags() + testEnvironmentProvider.uploadTags
+
         return InstrumentedTestListener(
             testUploader = BuildKiteTestDataUploader(
                 testSuiteApiToken = testSuiteApiToken,
                 runEnvironment = testEnvironmentProvider.getRunEnvironment(),
+                uploadTags = uploadTags,
                 logger = logger
             ),
             testObserver = BuildkiteTestObserver()

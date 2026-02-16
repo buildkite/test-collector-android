@@ -89,6 +89,7 @@ internal class UnitTestListener(
             result = testObserver.outcome,
             failureReason = testObserver.failureReason,
             failureExpanded = testObserver.failureDetails,
+            tags = testObserver.executionTags.ifEmpty { null },
             history = testHistory
         )
 

@@ -35,6 +35,7 @@ internal class InstrumentedTestListener(
 
     override fun testStarted(testDescription: Description) {
         testObserver.startTest()
+        BuildkiteExecutionTags.bind(testObserver)
     }
 
     override fun testFinished(testDescription: Description) {
@@ -79,11 +80,13 @@ internal class InstrumentedTestListener(
             result = testObserver.outcome,
             failureReason = testObserver.failureReason,
             failureExpanded = testObserver.failureDetails,
+            tags = testObserver.executionTags.ifEmpty { null },
             history = testHistory
         )
 
         testCollection.add(testDetails)
         testObserver.reset()
+        BuildkiteExecutionTags.unbind(testObserver)
     }
 
     /**

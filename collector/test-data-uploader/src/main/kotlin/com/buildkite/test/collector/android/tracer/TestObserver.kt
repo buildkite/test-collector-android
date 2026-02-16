@@ -34,6 +34,19 @@ interface TestObserver {
     val failureDetails: List<TestFailureExpanded>?
 
     /**
+     * The execution-level tags for the current test.
+     */
+    val executionTags: Map<String, String>
+
+    /**
+     * Sets an execution-level tag for the current test.
+     *
+     * @param key The tag key.
+     * @param value The tag value.
+     */
+    fun setExecutionTag(key: String, value: String)
+
+    /**
      * Records the start time of a test in nanoseconds.
      */
     fun startTest()

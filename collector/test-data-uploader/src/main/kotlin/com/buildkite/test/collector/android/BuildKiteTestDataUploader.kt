@@ -15,11 +15,13 @@ import retrofit2.Response
  *
  * @property testSuiteApiToken The API token for authentication.
  * @property runEnvironment The test run environment configuration.
+ * @property uploadTags Optional upload-level tags that apply to all test executions.
  * @property logger The logger for logging messages.
  */
 class BuildKiteTestDataUploader(
     private val testSuiteApiToken: String,
     private val runEnvironment: RunEnvironment,
+    private val uploadTags: Map<String, String> = emptyMap(),
     private val logger: Logger = Logger()
 ) : TestDataUploader {
     private val testUploaderApiFactory: TestUploaderApiFactory = DefaultTestUploaderApiFactory()
@@ -48,6 +50,7 @@ class BuildKiteTestDataUploader(
         return TestData(
             format = "json",
             runEnvironment = runEnvironment,
+            tags = uploadTags.ifEmpty { null },
             data = testCollection.take(CollectorUtils.Uploader.TEST_DATA_UPLOAD_LIMIT)
         )
     }

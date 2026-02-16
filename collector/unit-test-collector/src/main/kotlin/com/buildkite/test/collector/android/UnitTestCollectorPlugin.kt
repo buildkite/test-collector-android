@@ -15,6 +15,9 @@ import org.gradle.api.tasks.testing.Test
  */
 class UnitTestCollectorPlugin : Plugin<Project> {
     override fun apply(project: Project) {
+        val extension = project.extensions.findByType(UnitTestCollectorExtension::class.java)
+            ?: project.extensions.create("buildkiteTestAnalytics", UnitTestCollectorExtension::class.java)
+
         project.tasks.withType(Test::class.java).configureEach { test ->
             val testEnvironmentProvider = UnitTestEnvironmentProvider()
             val testSuiteApiToken = testEnvironmentProvider.testSuiteApiToken
@@ -31,10 +34,13 @@ class UnitTestCollectorPlugin : Plugin<Project> {
                 return@configureEach
             }
 
+            val uploadTags = extension.tags + testEnvironmentProvider.uploadTags
+
             val testListener = UnitTestListener(
                 testUploader = BuildKiteTestDataUploader(
                     testSuiteApiToken = testSuiteApiToken,
                     runEnvironment = testEnvironmentProvider.getRunEnvironment(),
+                    uploadTags = uploadTags,
                     logger = logger
                 ),
                 testObserver = BuildkiteTestObserver()
