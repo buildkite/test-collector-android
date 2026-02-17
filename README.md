@@ -190,11 +190,11 @@ To access and test the published snapshots, add the below repository configurati
 
 ```
 maven {
-    url = uri("https://s01.oss.sonatype.org/content/repositories/snapshots/")
+    url = uri("https://central.sonatype.com/repository/maven-snapshots/")
 }
 ```
 
-The snapshots can be found [here](https://s01.oss.sonatype.org/content/repositories/snapshots/com/buildkite/).
+The snapshots can be found [here](https://central.sonatype.com/repository/maven-snapshots/com/buildkite/).
 
 ---
 

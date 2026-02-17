@@ -9,10 +9,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Git Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Set up JDK 17
-        uses: actions/setup-java@v3.3.0
+        uses: actions/setup-java@v4
         with:
           distribution: zulu
           java-version: 17
@@ -20,8 +20,8 @@ jobs:
       - name: Clean project before building SDK
         run: ./gradlew clean
 
-      - name: Build and publish SDK snapshot to the Maven Central Repository
-        run: ./gradlew publishAllPublicationsToMavenCentralRepository --no-daemon --no-parallel
+      - name: Build and publish SDK snapshot to Maven Central
+        run: ./gradlew publishToMavenCentral --no-daemon --no-parallel
         env:
           ORG_GRADLE_PROJECT_mavenCentralUsername: ${{ secrets.MAVEN_CENTRAL_USERNAME }}
           ORG_GRADLE_PROJECT_mavenCentralPassword: ${{ secrets.MAVEN_CENTRAL_PASSWORD }}
